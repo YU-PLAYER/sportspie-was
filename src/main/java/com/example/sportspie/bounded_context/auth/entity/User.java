@@ -1,4 +1,4 @@
-package com.example.sportspie.auth.entity;
+package com.example.sportspie.bounded_context.auth.entity;
 
 import java.util.Collection;
 

@@ -1,4 +1,4 @@
-package com.example.sportspie.auth.type;
+package com.example.sportspie.bounded_context.auth.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
