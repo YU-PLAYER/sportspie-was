@@ -1,6 +1,7 @@
 package com.example.sportspie.bounded_context.stadium.entity;
 
 import com.example.sportspie.base.entity.BaseTimeEntity;
+import com.example.sportspie.bounded_context.stadium.type.Weather;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,4 +31,7 @@ public class Stadium extends BaseTimeEntity {
 
 	@Column
 	private String imageUrl;
+
+	@Column(columnDefinition = "TINYINT", nullable = false)
+	private Weather weatherType;
 }
