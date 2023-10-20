@@ -10,6 +10,7 @@ import com.example.sportspie.base.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -70,5 +71,15 @@ public class User extends BaseTimeEntity implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Builder
+	public User(String username, String password, String email, String nickname, String imageUrl, Integer isReadable) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.nickname = nickname;
+		this.imageUrl = imageUrl;
+		this.isReadable = isReadable;
 	}
 }
