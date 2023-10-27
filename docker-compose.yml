@@ -1,0 +1,9 @@
+version: '3'
+services:
+  was:
+    container_name: sportspie-was
+    image: jinlee1703/sportspie-was:${IMAGE_TAG}
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
