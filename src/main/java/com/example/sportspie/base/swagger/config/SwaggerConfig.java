@@ -1,4 +1,4 @@
-package com.example.sportspie.config;
+package com.example.sportspie.base.swagger.config;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
