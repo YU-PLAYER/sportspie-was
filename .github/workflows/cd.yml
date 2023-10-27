@@ -64,7 +64,7 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           pwd
           ls -al
-          docker build -t jinlee1703/sportspie-was:${{env.IMAGE_TAG}}
+          docker build -t jinlee1703/sportspie-was:${{env.IMAGE_TAG}} .
           docker push jinlee1703/sportspie-was:${{env.IMAGE_TAG}}
 
       # AWS SSM을 통한 Run-Command (Docker 이미지 pull 후 docker-compose를 통한 실행)
