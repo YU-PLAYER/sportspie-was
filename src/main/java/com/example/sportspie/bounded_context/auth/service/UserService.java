@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.repository.UserRepository;
+import com.example.sportspie.bounded_context.auth.type.OAuthPlatform;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,10 +23,19 @@ public class UserService {
 		return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
 	}
 
+	public User read(String username, OAuthPlatform oAuthPlatform) {
+		return userRepository.findByUsernameAndOAuthPlatform(username, oAuthPlatform)
+				.orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. username=" + username));
+	}
+
 	public User delete(Long userId) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
 		userRepository.delete(user);
 		return user;
+	}
+
+	public boolean isExist(String username, OAuthPlatform oAuthPlatform) {
+		return userRepository.findByUsernameAndOAuthPlatform(username, oAuthPlatform).isPresent();
 	}
 
 	public List<User> list() {

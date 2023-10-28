@@ -75,11 +75,13 @@ public class User extends BaseTimeEntity implements UserDetails {
 	}
 
 	@Builder
-	public User(String username, String password, String email, String nickname, String imageUrl, Integer isReadable) {
+	public User(String username, String email, String nickname, String imageUrl, Integer isReadable,
+			OAuthPlatform oAuthPlatform) {
 		this.username = username;
 		this.email = email;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.isReadable = isReadable;
+		this.oAuthPlatform = oAuthPlatform;
 	}
 }
