@@ -29,7 +29,7 @@ public class AuthService {
 					.nickname(userInfo.getNickname())
 					.imageUrl(userInfo.getProfileImageUrl())
 					.isReadable(1)
-					.oAuthPlatform(platform)
+					.platform(platform)
 					.build();
 			userService.create(savedUser);
 		}

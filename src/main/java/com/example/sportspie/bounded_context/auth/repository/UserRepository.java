@@ -8,5 +8,5 @@ import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.type.OAuthPlatform;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-	Optional<User> findByUsernameAndOAuthPlatform(String username, OAuthPlatform oAuthPlatform);
+	Optional<User> findByUsernameAndPlatform(String username, OAuthPlatform platform);
 }

@@ -37,7 +37,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 	private Integer isReadable;
 
 	@Column(columnDefinition = "TINYINT", nullable = false)
-	private OAuthPlatform oAuthPlatform;
+	private OAuthPlatform platform;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -76,12 +76,12 @@ public class User extends BaseTimeEntity implements UserDetails {
 
 	@Builder
 	public User(String username, String email, String nickname, String imageUrl, Integer isReadable,
-			OAuthPlatform oAuthPlatform) {
+			OAuthPlatform platform) {
 		this.username = username;
 		this.email = email;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.isReadable = isReadable;
-		this.oAuthPlatform = oAuthPlatform;
+		this.platform = platform;
 	}
 }

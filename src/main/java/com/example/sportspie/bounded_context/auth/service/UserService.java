@@ -24,7 +24,7 @@ public class UserService {
 	}
 
 	public User read(String username, OAuthPlatform oAuthPlatform) {
-		return userRepository.findByUsernameAndOAuthPlatform(username, oAuthPlatform)
+		return userRepository.findByUsernameAndPlatform(username, oAuthPlatform)
 				.orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. username=" + username));
 	}
 
@@ -35,7 +35,7 @@ public class UserService {
 	}
 
 	public boolean isExist(String username, OAuthPlatform oAuthPlatform) {
-		return userRepository.findByUsernameAndOAuthPlatform(username, oAuthPlatform).isPresent();
+		return userRepository.findByUsernameAndPlatform(username, oAuthPlatform).isPresent();
 	}
 
 	public List<User> list() {
