@@ -8,11 +8,13 @@ public class OAuthUserInfoResponseDto {
 	private String id;
 	private String email;
 	private String nickname;
+	private String profileImageUrl;
 
 	@Builder
-	public OAuthUserInfoResponseDto(String id, String email, String nickname) {
+	public OAuthUserInfoResponseDto(String id, String email, String nickname, String profileImageUrl) {
 		this.id = id;
 		this.email = email;
 		this.nickname = nickname;
+		this.profileImageUrl = profileImageUrl;
 	}
 }
