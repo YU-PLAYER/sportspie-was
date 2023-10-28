@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.sportspie.base.entity.BaseTimeEntity;
+import com.example.sportspie.bounded_context.auth.type.OAuthPlatform;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,9 +24,6 @@ public class User extends BaseTimeEntity implements UserDetails {
 	@Column(nullable = false)
 	private String username;
 
-	@Column(nullable = false)
-	private String password;
-
 	@Column
 	private String email;
 
@@ -37,6 +35,9 @@ public class User extends BaseTimeEntity implements UserDetails {
 
 	@Column(columnDefinition = "TINYINT", nullable = false)
 	private Integer isReadable;
+
+	@Column(columnDefinition = "TINYINT", nullable = false)
+	private OAuthPlatform platform;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -74,12 +75,13 @@ public class User extends BaseTimeEntity implements UserDetails {
 	}
 
 	@Builder
-	public User(String username, String password, String email, String nickname, String imageUrl, Integer isReadable) {
+	public User(String username, String email, String nickname, String imageUrl, Integer isReadable,
+			OAuthPlatform platform) {
 		this.username = username;
-		this.password = password;
 		this.email = email;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.isReadable = isReadable;
+		this.platform = platform;
 	}
 }
