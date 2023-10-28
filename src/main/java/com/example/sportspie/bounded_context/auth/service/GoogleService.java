@@ -51,11 +51,13 @@ public class GoogleService implements OAuthService {
 			String id = getStringOrNull(responseElement, "sub");
 			String email = getStringOrNull(responseElement, "email");
 			String nickname = getStringOrNull(responseElement, "name");
+			String picture = getStringOrNull(responseElement, "picture");
 
 			return OAuthUserInfoResponseDto.builder()
 					.id(id)
 					.email(email)
 					.nickname(nickname)
+					.profileImageUrl(picture)
 					.build();
 		} catch (Exception e) {
 			e.printStackTrace();

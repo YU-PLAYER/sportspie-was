@@ -24,9 +24,6 @@ public class User extends BaseTimeEntity implements UserDetails {
 	@Column(nullable = false)
 	private String username;
 
-	@Column(nullable = false)
-	private String password;
-
 	@Column
 	private String email;
 
@@ -80,7 +77,6 @@ public class User extends BaseTimeEntity implements UserDetails {
 	@Builder
 	public User(String username, String password, String email, String nickname, String imageUrl, Integer isReadable) {
 		this.username = username;
-		this.password = password;
 		this.email = email;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;

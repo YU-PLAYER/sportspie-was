@@ -49,11 +49,13 @@ public class KakaoService implements OAuthService {
 			String id = getStringOrNull(responseElement, "id");
 			String email = getStringOrNull(responseElement.getAsJsonObject().get("kakao_account"), "email");
 			String nickname = getStringOrNull(responseElement.getAsJsonObject().get("kakao_account").getAsJsonObject().get("profile"), "nickname");
+			String profileImage = getStringOrNull(responseElement.getAsJsonObject().get("kakao_account").getAsJsonObject().get("profile"), "profile_image_url");
 
 			return OAuthUserInfoResponseDto.builder()
 					.id(id)
 					.email(email)
 					.nickname(nickname)
+					.profileImageUrl(profileImage)
 					.build();
 		} catch (Exception e) {
 			e.printStackTrace();

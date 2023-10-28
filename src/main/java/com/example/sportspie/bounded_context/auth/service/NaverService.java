@@ -53,11 +53,13 @@ public class NaverService implements OAuthService {
 			String id = getStringOrNull(responseElement, "id");
 			String email = getStringOrNull(responseElement, "email");
 			String nickname = getStringOrNull(responseElement, "nickname");
+			String profileImage = getStringOrNull(responseElement, "profile_image");
 
 			return OAuthUserInfoResponseDto.builder()
 					.id(id)
 					.email(email)
 					.nickname(nickname)
+					.profileImageUrl(profileImage)
 					.build();
 		} catch (Exception e) {
 			e.printStackTrace();
