@@ -37,6 +37,7 @@ public class SecurityConfig {
 										"/v3/api-docs/**",
 										"/webjars/**",
 										"/error",
+										"/api/banner",
 										"/api/notice/**").permitAll()
 								.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
