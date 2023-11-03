@@ -38,7 +38,8 @@ public class SecurityConfig {
 										"/webjars/**",
 										"/error",
 										"/api/banner",
-										"/api/notice/**").permitAll()
+										"/api/notice/**",
+										"/api/notification/**").permitAll()
 								.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(exceptionHandling -> exceptionHandling
