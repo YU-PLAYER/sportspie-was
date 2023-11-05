@@ -39,7 +39,8 @@ public class SecurityConfig {
 										"/error",
 										"/api/banner",
 										"/api/notice/**",
-										"/api/notification/**").permitAll()
+										"/api/notification/**",
+										"/api/game/**").permitAll()
 								.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(exceptionHandling -> exceptionHandling
