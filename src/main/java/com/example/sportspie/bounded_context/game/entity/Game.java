@@ -12,6 +12,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,6 +45,23 @@ public class Game extends BaseTimeEntity {
 	@Column(columnDefinition = "TINYINT", nullable = false)
 	private GameStatus status;
 
-	@Column(columnDefinition = "TINYINT", nullable = false)
+	@Column(columnDefinition = "TINYINT")
 	private GameResult result;
+
+	@Column(columnDefinition = "TINYINT", nullable = false)
+	private Integer currentCapacity;
+
+	@Builder
+	public Game(User author, String title, Integer maxCapacity, LocalDateTime startedAt, Stadium stadium, String content, GameStatus status, GameResult result, Integer currentCapacity) {
+		this.author = author;
+		this.title = title;
+		this.maxCapacity = maxCapacity;
+		this.startedAt = startedAt;
+		this.stadium = stadium;
+		this.content = content;
+		this.status = status;
+		this.result = result;
+		this.currentCapacity = currentCapacity;
+	}
+
 }
