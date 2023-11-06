@@ -2,15 +2,18 @@ package com.example.sportspie.bounded_context.game.service;
 
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
+import com.example.sportspie.bounded_context.game.dto.GameResultRequestDto;
 import com.example.sportspie.bounded_context.game.dto.GameUserInfoRequestDto;
 import com.example.sportspie.bounded_context.game.dto.GameRequestDto;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.repository.GameRepository;
+import com.example.sportspie.bounded_context.game.type.GameResult;
 import com.example.sportspie.bounded_context.game.type.GameStatus;
 import com.example.sportspie.bounded_context.stadium.entity.Stadium;
 import com.example.sportspie.bounded_context.stadium.service.StadiumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,8 +39,7 @@ public class GameService{
         return gameRepository.findByStartedAtBetween(startOfDay, endOfDay);
     }
 
-    public Game read(GameUserInfoRequestDto gameUserInfoRequestDto){
-        userService.read(gameUserInfoRequestDto.getUserId());
-        return gameRepository.findById(gameUserInfoRequestDto.getGameId()).orElseThrow(() -> new IllegalArgumentException("해당 게임이 없습니다. id=" + gameUserInfoRequestDto.getGameId()));
+    public Game read(Long gameId) {
+        return gameRepository.findById(gameId).orElseThrow(() -> new IllegalArgumentException("해당 경기가 없습니다. id=" + gameId));
     }
 }

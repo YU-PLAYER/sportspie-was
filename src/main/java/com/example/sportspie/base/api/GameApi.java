@@ -23,7 +23,8 @@ public interface GameApi {
     @Operation(summary = "Game 목록 조회 메서드", description = "사용자가 게임 목록을 조회하기 위한 메서드 입니다.")
     List<Game> list(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate startedAt);
 
-    @PostMapping("/detail")
+    @GetMapping("/detail/{id}")
     @Operation(summary = "Game 상세 조회 메서드", description = "로그인한 사용자가 게임 정보를 상세 조회하기 위한 메서드 입니다.")
-    Game read(@RequestBody GameUserInfoRequestDto gameUserInfoRequestDto);
+    Game read(@PathVariable Long id);
+
 }

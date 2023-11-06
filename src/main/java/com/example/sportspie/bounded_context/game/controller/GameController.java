@@ -25,9 +25,8 @@ public class GameController implements GameApi {
     public List<Game> list(LocalDate startedAt) {
         return gameService.list(startedAt);
     }
-
     @Override
-    public Game read(GameUserInfoRequestDto gameUserInfoRequestDto) {
-        return gameService.read(gameUserInfoRequestDto);
+    public Game read(Long id) {
+        return gameService.read(id);
     }
 }
