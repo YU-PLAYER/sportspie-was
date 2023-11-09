@@ -2,23 +2,29 @@ package com.example.sportspie.bounded_context.game.service;
 
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
+import com.example.sportspie.bounded_context.game.dto.GameListResponseDto;
 import com.example.sportspie.bounded_context.game.dto.GameResultRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameUserInfoRequestDto;
+import com.example.sportspie.bounded_context.game.dto.GameUserRequestDto;
 import com.example.sportspie.bounded_context.game.dto.GameRequestDto;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.repository.GameRepository;
 import com.example.sportspie.bounded_context.game.type.GameResult;
 import com.example.sportspie.bounded_context.game.type.GameStatus;
+import com.example.sportspie.bounded_context.gameUser.entitiy.GameUser;
+import com.example.sportspie.bounded_context.gameUser.repository.GameUserRepository;
+import com.example.sportspie.bounded_context.gameUser.service.GameUserService;
+import com.example.sportspie.bounded_context.gameUser.type.GameTeam;
 import com.example.sportspie.bounded_context.stadium.entity.Stadium;
 import com.example.sportspie.bounded_context.stadium.service.StadiumService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,25 +32,65 @@ public class GameService{
     private final GameRepository gameRepository;
     private final UserService userService;
     private final StadiumService stadiumService;
+    private final GameUserRepository gameUserRepository;
 
+
+    /**
+     * 경기 생성
+     * 생성자는 자동으로 참가되어야 한다.
+     * 반환 값에 대한 논의
+     */
     public Game create(GameRequestDto gameRequestDto){
         User author = userService.read(gameRequestDto.getAuthorId());
         Stadium stadium = stadiumService.read(gameRequestDto.getStadiumId()); //stadiumService 메서드 사용
-        return gameRepository.save(gameRequestDto.toEntity(author, stadium));
+        Game game = gameRepository.save(gameRequestDto.toEntity(author, stadium));
+        return game;
     }
 
-    public List<Game> list(LocalDate startAt){
-        LocalDateTime startOfDay = startAt.atStartOfDay();
-        LocalDateTime endOfDay = startAt.atTime(LocalTime.MAX);
-        return gameRepository.findByStartedAtBetween(startOfDay, endOfDay);
+    /**
+     * 날짜 별 경기 목록(경기 시작 시간 오름차순/내림차순)
+     */
+    public Page<GameListResponseDto> list(LocalDate startedAt, Pageable pageable){
+        LocalDateTime startOfDay = startedAt.atStartOfDay();
+        LocalDateTime endOfDay = startedAt.atTime(LocalTime.MAX);
+        Page<Game> gamePage = gameRepository.findByStartedAtBetween(startOfDay, endOfDay, pageable);
+        return gamePage.map(game -> GameListResponseDto.builder()
+                    .gameId(game.getId())
+                    .gameStatus(game.getStatus())
+                    .title(game.getTitle())
+                    .time(game.getStartedAt().toLocalTime())
+                    .stadiumName(game.getStadium().getName())
+                    .totalPeople(game.getMaxCapacity())
+                    .currentPeople(game.getCurrentCapacity()).build());
     }
 
+    /**
+     * 경기 검색
+     */
+    public Page<GameListResponseDto> list(String title, Pageable pageable){
+        Page<Game> gamePage = gameRepository.findByTitleContaining(title, pageable);
+        return gamePage.map(game -> GameListResponseDto.builder()
+                .gameId(game.getId())
+                .gameStatus(game.getStatus())
+                .title(game.getTitle())
+                .time(game.getStartedAt().toLocalTime())
+                .stadiumName(game.getStadium().getName())
+                .totalPeople(game.getMaxCapacity())
+                .currentPeople(game.getCurrentCapacity()).build());
+    }
+
+    /**
+     * 경기 상세보기
+     */
     public Game read(Long gameId){
         return gameRepository.findById(gameId).orElseThrow(()-> new IllegalArgumentException("해당 경기가 없습니다. id=" + gameId));
     }
 
+    /**
+     * 경기 인원 확정
+     */
     @Transactional
-    public Game personConfirm(GameUserInfoRequestDto request){
+    public Game personConfirm(GameUserRequestDto request){
         Game game = read(request.getGameId());
         Long userId = request.getUserId();
 
@@ -54,6 +100,9 @@ public class GameService{
         return game;
     }
 
+    /**
+     * 경기 결과 확정
+     */
     @Transactional
     public Game resultConfirm(GameResultRequestDto request){
         Long userId = request.getUserId();
@@ -69,7 +118,10 @@ public class GameService{
         return game;
     }
 
-    public Game delete(GameUserInfoRequestDto request){
+    /**
+     * 경기 삭제
+     */
+    public Game delete(GameUserRequestDto request){
         Game game = read(request.getGameId());
         Long userId = request.getUserId();
 
