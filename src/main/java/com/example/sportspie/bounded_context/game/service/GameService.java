@@ -10,12 +10,9 @@ import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.repository.GameRepository;
 import com.example.sportspie.bounded_context.game.type.GameResult;
 import com.example.sportspie.bounded_context.game.type.GameStatus;
-import com.example.sportspie.bounded_context.gameUser.entitiy.GameUser;
-import com.example.sportspie.bounded_context.gameUser.repository.GameUserRepository;
-import com.example.sportspie.bounded_context.gameUser.service.GameUserService;
-import com.example.sportspie.bounded_context.gameUser.type.GameTeam;
 import com.example.sportspie.bounded_context.stadium.entity.Stadium;
 import com.example.sportspie.bounded_context.stadium.service.StadiumService;
+import com.example.sportspie.bounded_context.stadium.type.Weather;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,8 +28,7 @@ import java.time.LocalTime;
 public class GameService{
     private final GameRepository gameRepository;
     private final UserService userService;
-    private final StadiumService stadiumService;
-    private final GameUserRepository gameUserRepository;
+//    private final StadiumService stadiumService;
 
 
     /**
@@ -42,7 +38,8 @@ public class GameService{
      */
     public Game create(GameRequestDto gameRequestDto){
         User author = userService.read(gameRequestDto.getAuthorId());
-        Stadium stadium = stadiumService.read(gameRequestDto.getStadiumId()); //stadiumService 메서드 사용
+        //Stadium stadium = stadiumService.read(gameRequestDto.getStadiumId());
+        Stadium stadium = new Stadium();
         Game game = gameRepository.save(gameRequestDto.toEntity(author, stadium));
         return game;
     }
