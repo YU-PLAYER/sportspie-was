@@ -64,4 +64,34 @@ public class Game extends BaseTimeEntity {
 		this.currentCapacity = currentCapacity;
 	}
 
+	public Boolean isAuthor(Long userId){
+		return author.equals(userId);
+	}
+
+	/*
+	경기 인원 확정 조건
+	1. 경기 참여 인원 짝수
+	 */
+	public Boolean isSatisfiedCapacity(){
+		return getCurrentCapacity() % 2 == 0;
+	}
+
+	/*
+	경기 결과 확정 조건
+	1. 경기 확정상태
+	2. 경기 시작 시간 이후
+	 */
+	public Boolean isSatisfiedResult(){
+		return getStartedAt().isAfter(LocalDateTime.now()) && getStatus().equals(GameStatus.PROGRESS);
+	}
+
+	/*
+	기존 경기 삭제 조건
+	1. 경기 예정 상태
+	2. 경기 시작 시간 2시간 전
+	 */
+	public Boolean isSatisfiedDelete(){
+		return getStartedAt().minusHours(2).isBefore(LocalDateTime.now()) && getStatus().equals(GameStatus.BEFORE);
+	}
+
 }
