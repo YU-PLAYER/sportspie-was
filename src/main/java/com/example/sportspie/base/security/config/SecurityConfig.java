@@ -40,6 +40,7 @@ public class SecurityConfig {
 										"/api/banner",
 										"/api/notice/**",
 										"/api/notification/**",
+										"/api/stadium/**",
 										"/api/game/**").permitAll()
 								.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
