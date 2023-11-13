@@ -12,6 +12,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.sportspie.base.jwt.filter.JwtAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer {
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -70,5 +72,21 @@ public class SecurityConfig {
 				);
 
 		return httpSecurity.build();
+	}
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		// 모든 경로에 대해
+		registry.addMapping("/**")
+				// 허용할 오리진들
+				.allowedOrigins("*")
+				// 허용할 요청 메소드들
+				.allowedMethods("*")
+				// 허용할 요청 헤더들
+				.allowedHeaders("*")
+				// 브라우저에서 자격증명이 가능한지 여부
+				.allowCredentials(true)
+				// 최대 응답 가능 시간
+				.maxAge(3600);
 	}
 }
