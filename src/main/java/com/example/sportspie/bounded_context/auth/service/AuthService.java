@@ -28,7 +28,6 @@ public class AuthService {
 					.email(userInfo.getEmail())
 					.nickname(userInfo.getNickname())
 					.imageUrl(userInfo.getProfileImageUrl())
-					.isReadable(1)
 					.platform(platform)
 					.build();
 			userService.create(savedUser);
