@@ -2,6 +2,7 @@ package com.example.sportspie.bounded_context.auth.entity;
 
 import java.util.Collection;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,10 +35,57 @@ public class User extends BaseTimeEntity implements UserDetails {
 	private String imageUrl;
 
 	@Column(columnDefinition = "TINYINT", nullable = false)
-	private Integer isReadable;
-
-	@Column(columnDefinition = "TINYINT", nullable = false)
 	private OAuthPlatform platform;
+
+	@Column
+	private String gender;
+
+	@Column
+	private Integer age;
+
+	@Column
+	private String region;
+
+	@Column
+	private Integer height;
+
+	@Column
+	private Integer weight;
+
+	@Column
+	private String introduce;
+
+	@Column(name = "is_preffered_attacker", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("0")
+	private Boolean attacker;
+
+	@Column(name = "is_preffered_midfielder", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("0")
+	private Boolean midfielder;
+
+	@Column(name = "is_preffered_defender", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("0")
+	private Boolean defender;
+
+	@Column(name = "is_preffered_goalkeeper", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("0")
+	private Boolean goalkeeper;
+
+	@Column(name = "is_public_profile", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("1")
+	private Boolean publicProfile;
+
+	@Column(name = "is_public_information", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("1")
+	private Boolean publicInformation;
+
+	@Column(name = "is_public_introduce", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("1")
+	private Boolean publicIntroduce;
+
+	@Column(name = "is_public_record", columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("1")
+	private Boolean publicRecord;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -75,13 +123,28 @@ public class User extends BaseTimeEntity implements UserDetails {
 	}
 
 	@Builder
-	public User(String username, String email, String nickname, String imageUrl, Integer isReadable,
-			OAuthPlatform platform) {
+	public User(String username, String email, String nickname, String imageUrl, OAuthPlatform platform, String gender, Integer age, String region,
+			Integer height,
+			Integer weight, String introduce, Boolean attacker, Boolean midfielder, Boolean defender, Boolean goalkeeper, Boolean publicProfile,
+			Boolean publicInformation, Boolean publicIntroduce, Boolean publicRecord) {
 		this.username = username;
 		this.email = email;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
-		this.isReadable = isReadable;
 		this.platform = platform;
+		this.gender = gender;
+		this.age = age;
+		this.region = region;
+		this.height = height;
+		this.weight = weight;
+		this.introduce = introduce;
+		this.attacker = attacker;
+		this.midfielder = midfielder;
+		this.defender = defender;
+		this.goalkeeper = goalkeeper;
+		this.publicProfile = publicProfile;
+		this.publicInformation = publicInformation;
+		this.publicIntroduce = publicIntroduce;
+		this.publicRecord = publicRecord;
 	}
 }
