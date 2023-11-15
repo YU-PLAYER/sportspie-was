@@ -12,8 +12,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.sportspie.base.jwt.filter.JwtAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +38,7 @@ public class SecurityConfig {
 										"/webjars/**",
 										"/error",
 										"/api/auth/**",
+										"/api/auth/sign-in/**",
 										"/api/banner",
 										"/api/notice/**",
 										"/api/notification/**",
