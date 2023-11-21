@@ -13,6 +13,9 @@ public interface StadiumRepository extends JpaRepository<Stadium, Integer> {
     @Query(value = """
 SELECT s.id AS id, 
 s.name AS name,
+s.city AS city,
+s.district AS district,
+s.village AS village,
 s.latitude AS latitude,
 s.longitude AS longitude,
 ( 6371 * acos( cos( radians(:latitude) ) * cos( radians( s.latitude ) ) * cos( radians( s.longitude ) - radians(:longitude) ) + sin( radians(:latitude) ) * sin( radians( s.latitude ) ) ) ) AS distance
