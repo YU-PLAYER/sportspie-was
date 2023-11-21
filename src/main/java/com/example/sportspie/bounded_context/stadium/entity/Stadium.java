@@ -21,6 +21,9 @@ public class Stadium extends BaseTimeEntity {
 	private String district;
 
 	@Column(nullable = false)
+	private String village;
+
+	@Column(nullable = false)
 	private String name;
 
 	@Column(nullable = false)

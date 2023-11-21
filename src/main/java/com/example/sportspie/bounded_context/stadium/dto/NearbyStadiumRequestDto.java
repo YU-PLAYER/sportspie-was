@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 public class NearbyStadiumRequestDto implements INearbyStadium {
     private Integer id;
     private String name;
+    private String city;
+    private String district;
+    private String village;
     private Double latitude;
     private Double longitude;
     private Double distance;

@@ -13,11 +13,11 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
 
 
-    public List<Notice> noticeList(){
+    public List<Notice> list(){
         return noticeRepository.findAll();
     }
 
-    public Notice noticeDetail(Integer id){
+    public Notice read(Integer id){
         return noticeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 공지사항이 없습니다. id= "+ id));
     }
 }

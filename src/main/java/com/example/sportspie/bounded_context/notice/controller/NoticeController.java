@@ -14,12 +14,12 @@ public class NoticeController implements NoticeApi {
     private final NoticeService noticeService;
 
     @Override
-    public List<Notice> noticeList() {
-        return noticeService.noticeList();
+    public List<Notice> list() {
+        return noticeService.list();
     }
 
     @Override
-    public Notice noticeDetail(Integer id) {
-        return noticeService.noticeDetail(id);
+    public Notice read(Integer id) {
+        return noticeService.read(id);
     }
 }
