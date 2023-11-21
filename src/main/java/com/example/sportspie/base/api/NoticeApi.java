@@ -18,10 +18,10 @@ import java.util.List;
 public interface NoticeApi {
     @GetMapping("")
     @Operation(summary = "공지사항 목록 조회 메서드", description = "사용자가 공지사항 목록을 조회하기 위한 메서드입니다.")
-    List<Notice> noticeList();
+    List<Notice> list();
 
 
     @GetMapping("/{id}")
     @Operation(summary = "공지사항 상세 조회 메서드", description = "사용자가 공지사항의 상세 내용을 조회하기 위한 메서드입니다.")
-    Notice noticeDetail(@PathVariable Integer id);
+    Notice read(@PathVariable Integer id);
 }
