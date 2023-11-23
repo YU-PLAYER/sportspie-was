@@ -10,27 +10,35 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+/**
+ * 1. 속성 타입 통일(id/user.getId)
+ * 2. 비슷한 질의 병합
+ * 3. 반환 타입 고민
+ */
+
 public interface GameUserRepository extends JpaRepository<GameUser, Long> {
 
-    //경기 + 유저 -> 주키로 사용하여 검색
+    //read : 경기 + 유저 -> 주키로 사용하여 검색
     GameUser findByJoinUserAndJoinGame(User user, Game game);
 
-    //경기에 참여한 유저 조회
+    //joinMemberList : 경기에 참여한 유저 조회 GameUser
     @Query("SELECT u FROM GameUser u WHERE u.joinGame = :joinGame ORDER BY u.team, u.updatedAt")
     List<GameUser> findByJoinGameOrderByTeam(Game joinGame);
 
-    //참가 신청하려는 경기의 팀 인원 조회
+    //Notification.create : 경기 참여한 유저 조회 User
+    @Query("SELECT u.joinUser FROM GameUser u WHERE u.joinGame = :joinGame")
+    List<User> findByJoinGame(Game joinGame);
+
+    //isFull : 참가 신청하려는 경기의 팀 인원 조회
     Long countByJoinGameAndTeam(Game joinGame, GameTeam gameTeam);
 
-    //참여한 경기 조회
-    List<GameUser> findByJoinUser(User user);
-
-    //경기 상태 별 경기 조회 - 예정된 경기 목록 조회, 완료된 경기 목록 조회
+    //list/after/before : 경기 상태 별 경기 조회
     @Query("SELECT u FROM GameUser u, Game g WHERE u.joinGame = g and u.joinUser.id = :userId and g.status IN :gameStatuses ORDER BY g.status, g.result nulls first, g.startedAt")
     List<GameUser> findByGameState(Long userId, GameStatus[] gameStatuses);
 
-    //경기 결과가 존재하는 경기 조회 - 전적 조회
-    @Query("SELECT u FROM GameUser u, Game g WHERE u.joinGame = g and u.id = :userId and g.result IS NOT NULL")
+    //history : 경기 결과가 존재하는 경기 조회 - 전적 조회
+    @Query("SELECT u FROM GameUser u, Game g WHERE u.joinGame = g and u.joinUser.id = :userId and g.result is not null ORDER BY g.startedAt")
     List<GameUser> findByGameResult(Long userId);
+
 
 }
