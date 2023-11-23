@@ -8,7 +8,7 @@ import java.net.URL;
 import org.springframework.stereotype.Service;
 
 import com.example.sportspie.bounded_context.auth.config.GoogleConfig;
-import com.example.sportspie.bounded_context.auth.dto.OAuthTokenRequestDto;
+import com.example.sportspie.bounded_context.auth.dto.OAuthTokenDto;
 import com.example.sportspie.bounded_context.auth.dto.OAuthUserInfoResponseDto;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -22,9 +22,9 @@ public class GoogleService implements OAuthService {
 	private final JsonParser parser = new JsonParser();
 
 	@Override
-	public OAuthUserInfoResponseDto getUserInfo(OAuthTokenRequestDto oAuthTokenRequestDto) {
+	public OAuthUserInfoResponseDto getUserInfo(OAuthTokenDto oAuthTokenDto) {
 		try {
-			String token = oAuthTokenRequestDto.getToken();
+			String token = oAuthTokenDto.getToken();
 
 			URL url = new URL(googleConfig.getUserInfoUri());
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -62,6 +62,11 @@ public class GoogleService implements OAuthService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	public OAuthTokenDto getToken(String authorizationCode) {
 		return null;
 	}
 

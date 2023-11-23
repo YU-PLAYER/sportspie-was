@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.sportspie.base.jwt.dto.JwtDto;
 import com.example.sportspie.base.jwt.util.JwtProvider;
-import com.example.sportspie.bounded_context.auth.dto.OAuthTokenRequestDto;
+import com.example.sportspie.bounded_context.auth.dto.OAuthTokenDto;
 import com.example.sportspie.bounded_context.auth.dto.OAuthUserInfoResponseDto;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.type.OAuthPlatform;
@@ -18,9 +18,9 @@ public class AuthService {
 	private final UserService userService;
 	private final JwtProvider jwtProvider;
 
-	public JwtDto signIn(OAuthPlatform platform, OAuthTokenRequestDto oAuthTokenRequestDto) {
+	public JwtDto signIn(OAuthPlatform platform, OAuthTokenDto oAuthTokenDto) {
 		// 1. 사용자 정보 읽어오기
-		OAuthUserInfoResponseDto userInfo = oAuthBridge.getService(platform).getUserInfo(oAuthTokenRequestDto);
+		OAuthUserInfoResponseDto userInfo = oAuthBridge.getService(platform).getUserInfo(oAuthTokenDto);
 		// 2. 저장 여부 체크 (저장이 되어있지 않으면 저장)
 		if (!userService.isExist(userInfo.getId(), platform)) {
 			User savedUser = User.builder()
@@ -43,5 +43,9 @@ public class AuthService {
 				.accessToken(accessToken)
 				.refreshToken(refreshToken)
 				.build();
+	}
+
+	public OAuthTokenDto signInWithToken(OAuthPlatform platform, String code) {
+		return oAuthBridge.getService(platform).getToken(code);
 	}
 }
