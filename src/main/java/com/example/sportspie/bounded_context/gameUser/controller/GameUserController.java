@@ -6,6 +6,7 @@ import com.example.sportspie.bounded_context.auth.service.UserService;
 import com.example.sportspie.bounded_context.gameUser.dto.GameUserRequestDto;
 import com.example.sportspie.bounded_context.gameUser.dto.JoinGameResponseDto;
 import com.example.sportspie.bounded_context.gameUser.dto.JoinUserResponseDto;
+import com.example.sportspie.bounded_context.gameUser.dto.UserRecordResponseDto;
 import com.example.sportspie.bounded_context.gameUser.entitiy.GameUser;
 import com.example.sportspie.bounded_context.gameUser.service.GameUserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,14 +54,13 @@ public class GameUserController implements GameUserApi {
     }
 
     @Override
-    public int[] history(HttpServletRequest request) {
+    public UserRecordResponseDto history(HttpServletRequest request) {
         Long userId = 1L;
         return gameUserService.history(userId);
     }
 
     @Override
     public List<JoinUserResponseDto> joinList(Long gameId, HttpServletRequest request) {
-        System.out.println("hello");
         return gameUserService.joinMemberList(gameId);
     }
 }

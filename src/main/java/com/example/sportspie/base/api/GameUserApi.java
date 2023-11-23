@@ -3,6 +3,7 @@ package com.example.sportspie.base.api;
 import com.example.sportspie.bounded_context.gameUser.dto.GameUserRequestDto;
 import com.example.sportspie.bounded_context.gameUser.dto.JoinGameResponseDto;
 import com.example.sportspie.bounded_context.gameUser.dto.JoinUserResponseDto;
+import com.example.sportspie.bounded_context.gameUser.dto.UserRecordResponseDto;
 import com.example.sportspie.bounded_context.gameUser.entitiy.GameUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +38,7 @@ public interface GameUserApi {
 
     @GetMapping("/history")
     @Operation(summary = "GameUser 전적 조회 메서드", description = "사용자의 전적을 조회하기 위한 메서드 입니다.")
-    int[] history(HttpServletRequest request);
+    UserRecordResponseDto history(HttpServletRequest request);
 
     @GetMapping("/join/{gameId}")
     @Operation(summary = "GameUser 참여 인원 조회 메서드", description = "경기에 참가 신청을 한 모든 유저를 조회하기 위한 메서드 입니다.")
