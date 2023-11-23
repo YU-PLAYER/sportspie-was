@@ -125,8 +125,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 	@Builder
 	public User(String username, String email, String nickname, String imageUrl, OAuthPlatform platform, String gender, Integer age, String region,
 			Integer height,
-			Integer weight, String introduce, Boolean attacker, Boolean midfielder, Boolean defender, Boolean goalkeeper, Boolean publicProfile,
-			Boolean publicInformation, Boolean publicIntroduce, Boolean publicRecord) {
+			Integer weight, String introduce) {
 		this.username = username;
 		this.email = email;
 		this.nickname = nickname;
@@ -138,13 +137,14 @@ public class User extends BaseTimeEntity implements UserDetails {
 		this.height = height;
 		this.weight = weight;
 		this.introduce = introduce;
-		this.attacker = attacker;
-		this.midfielder = midfielder;
-		this.defender = defender;
-		this.goalkeeper = goalkeeper;
-		this.publicProfile = publicProfile;
-		this.publicInformation = publicInformation;
-		this.publicIntroduce = publicIntroduce;
-		this.publicRecord = publicRecord;
+		
+		this.attacker = Boolean.FALSE;
+		this.midfielder = Boolean.FALSE;
+		this.defender = Boolean.FALSE;
+		this.goalkeeper = Boolean.FALSE;
+		this.publicProfile = Boolean.FALSE;
+		this.publicInformation = Boolean.FALSE;
+		this.publicIntroduce = Boolean.FALSE;
+		this.publicRecord = Boolean.FALSE;
 	}
 }
