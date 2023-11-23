@@ -56,35 +56,35 @@ public class User extends BaseTimeEntity implements UserDetails {
 	private String introduce;
 
 	@Column(name = "is_preffered_attacker", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("0")
+	@ColumnDefault("false")
 	private Boolean attacker;
 
 	@Column(name = "is_preffered_midfielder", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("0")
+	@ColumnDefault("false")
 	private Boolean midfielder;
 
 	@Column(name = "is_preffered_defender", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("0")
+	@ColumnDefault("false")
 	private Boolean defender;
 
 	@Column(name = "is_preffered_goalkeeper", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("0")
+	@ColumnDefault("false")
 	private Boolean goalkeeper;
 
 	@Column(name = "is_public_profile", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("1")
+	@ColumnDefault("false")
 	private Boolean publicProfile;
 
 	@Column(name = "is_public_information", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("1")
+	@ColumnDefault("false")
 	private Boolean publicInformation;
 
 	@Column(name = "is_public_introduce", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("1")
+	@ColumnDefault("false")
 	private Boolean publicIntroduce;
 
 	@Column(name = "is_public_record", columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("1")
+	@ColumnDefault("false")
 	private Boolean publicRecord;
 
 	@Override
