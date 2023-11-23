@@ -55,12 +55,12 @@ public class GameUserService {
 
         //참가 조건
         if(gameUser!=null) throw new IllegalStateException("이미 참가한 내역이 있습니다. 취소 후 재참여 바람");
-        if(!game.isSatisfiedJoin()) throw new IllegalStateException("경기 인원이 최대 인원에 도달하여 참가할 수 없습니다.");
+        //if(!game.isSatisfiedJoin()) throw new IllegalStateException("경기 인원이 최대 인원에 도달하여 참가할 수 없습니다."); //isSatisfiedJoin
         if(isTeamFull(game, gameUserRequestDto.getGameTeam())) throw new IllegalStateException("팀 인원이 최대 인원에 도달하여 참가할 수 없습니다.");
 
         //참가 로직
         gameUser = gameUserRepository.save(gameUserRequestDto.toEntity(user, game));
-        game.increaseCurrentCapacity();
+        //game.increaseCurrentCapacity(); //increaseCurrentCapacity
 
         return gameUser;
     }
@@ -88,7 +88,7 @@ public class GameUserService {
 
         //취소 로직
         gameUserRepository.delete(gameUser);
-        game.decreaseCurrentCapacity();
+        //game.decreaseCurrentCapacity(); //decreaseCurrentCapacity
 
         return gameUser;
     }
