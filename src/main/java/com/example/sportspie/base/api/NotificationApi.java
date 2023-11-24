@@ -1,5 +1,6 @@
 package com.example.sportspie.base.api;
 
+import com.example.sportspie.bounded_context.notification.dto.NotificationResponseDto;
 import com.example.sportspie.bounded_context.notification.entity.Notification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,7 +13,7 @@ import java.util.List;
 public interface NotificationApi {
     @GetMapping("/{receiverId}")
     @Operation(summary = "알림 목록 조회 메서드", description = "사용자의 알림 목록을 조회하기 위한 메서드입니다.")
-    List<Notification> list(@PathVariable Long receiverId);
+    List<NotificationResponseDto> list(@PathVariable Long receiverId);
 
     @DeleteMapping("/{id}")
     @Operation(summary = "알림 삭제 메서드", description = "사용자의 알림을 삭제하기 위한 메서드입니다.")

@@ -1,6 +1,7 @@
 package com.example.sportspie.bounded_context.notification.controller;
 
 import com.example.sportspie.base.api.NotificationApi;
+import com.example.sportspie.bounded_context.notification.dto.NotificationResponseDto;
 import com.example.sportspie.bounded_context.notification.entity.Notification;
 import com.example.sportspie.bounded_context.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class NotificationController implements NotificationApi {
     private final NotificationService notificationService;
 
     @Override
-    public List<Notification> list(Long receiverId) {
+    public List<NotificationResponseDto> list(Long receiverId) {
         return notificationService.list(receiverId);
     }
 
