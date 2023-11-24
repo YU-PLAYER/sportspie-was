@@ -1,5 +1,6 @@
 package com.example.sportspie.base.api;
 
+import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.bounded_context.gameUser.dto.GameUserRequestDto;
 import com.example.sportspie.bounded_context.gameUser.dto.JoinGameResponseDto;
 import com.example.sportspie.bounded_context.gameUser.dto.JoinUserResponseDto;
@@ -8,6 +9,7 @@ import com.example.sportspie.bounded_context.gameUser.entitiy.GameUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public interface GameUserApi {
 
     @PostMapping("")
     @Operation(summary = "GameUser 생성 메서드", description = "사용자가 경기에 참여하기 위한 위한 메서드입니다.")
-    GameUser create(@RequestBody GameUserRequestDto gameUserRequestDto);
+    ResponseEntity<StateResponse> create(@RequestBody GameUserRequestDto gameUserRequestDto);
 
     @GetMapping("/list")
     @Operation(summary = "GameUser 모든 경기 목록 조회 메서드", description = "사용자가 참여한 모든 경기 목록을 조회하기 위한 메서드 입니다.")
@@ -34,7 +36,7 @@ public interface GameUserApi {
 
     @PostMapping("/delete")
     @Operation(summary = "GameUser 삭제 메서드", description = "사용자가 경기 참여를 취소하기 위한 메서드 입니다.")
-    GameUser delete(@RequestBody GameUserRequestDto gameUserRequestDto);
+    ResponseEntity<StateResponse> delete(@RequestBody GameUserRequestDto gameUserRequestDto);
 
     @GetMapping("/history")
     @Operation(summary = "GameUser 전적 조회 메서드", description = "사용자의 전적을 조회하기 위한 메서드 입니다.")
