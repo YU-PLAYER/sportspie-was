@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,40 +59,19 @@ public class GameService{
     }
 
     /**
-     * 날짜 별 경기 목록
-     * 정렬 (경기시작시간/오름차순,내림차순)
-     *
-     * 날씨 필요 + Pageable 객체 파라미터
-     * @return Page<GameListResponseDto> [미정]
+     * 날짜 별 경기 목록(오름차순/내림차순/검색)
+     * @param startedAt
+     * @param title
+     * @param pageable
+     * @return
      */
-    public Page<GameListResponseDto> list(LocalDate startedAt, Pageable pageable){
+    public Page<GameListResponseDto> list(LocalDate startedAt, String title, Pageable pageable){
         LocalDateTime startOfDay = startedAt.atStartOfDay();
         LocalDateTime endOfDay = startedAt.atTime(LocalTime.MAX);
-        Page<Game> gamePage = gameRepository.findByStartedAtBetween(startOfDay, endOfDay, pageable);
-        return gamePage.map(game -> GameListResponseDto.builder()
-                    .gameId(game.getId())
-                    .gameStatus(game.getStatus())
-                    .title(game.getTitle())
-                    .time(game.getStartedAt().toLocalTime())
-                    .stadiumName(game.getStadium().getName())
-                    .totalPeople(game.getMaxCapacity())
-                    .currentPeople(game.getCurrentCapacity()).build());
-    }
-
-    /**
-     * 경기 제목 검색
-     * 시작시간 정렬 필요
-     */
-    public Page<GameListResponseDto> list(String title, Pageable pageable){
-        Page<Game> gamePage = gameRepository.findByTitleContaining(title, pageable);
-        return gamePage.map(game -> GameListResponseDto.builder()
-                .gameId(game.getId())
-                .gameStatus(game.getStatus())
-                .title(game.getTitle())
-                .time(game.getStartedAt().toLocalTime())
-                .stadiumName(game.getStadium().getName())
-                .totalPeople(game.getMaxCapacity())
-                .currentPeople(game.getCurrentCapacity()).build());
+        Page<Game> gamePage;
+        if(title.isEmpty()) gamePage = gameRepository.findByStartedAtBetween(startOfDay, endOfDay, pageable);
+        else gamePage = gameRepository.findByStartedAtBetweenAndTitleContaining(startOfDay, endOfDay, title, pageable);
+        return gamePage.map(game -> game.toDto());
     }
 
     /**
