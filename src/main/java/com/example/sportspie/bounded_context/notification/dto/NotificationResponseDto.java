@@ -1,19 +1,16 @@
 package com.example.sportspie.bounded_context.notification.dto;
 
-import com.example.sportspie.bounded_context.auth.entity.User;
-import com.example.sportspie.bounded_context.notification.entity.Notification;
 import com.example.sportspie.bounded_context.notification.type.NotificationType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor
-public class NotificationRequestDto {
+public class NotificationResponseDto {
     private String content;
     private LocalDate date;
     private LocalTime time;
@@ -21,8 +18,11 @@ public class NotificationRequestDto {
     private NotificationType type;
 
     @Builder
-    public NotificationRequestDto(String content, NotificationType type) {
+    public NotificationResponseDto(String content, LocalDate date, LocalTime time, String stadiumName, NotificationType type) {
         this.content = content;
+        this.date = date;
+        this.time = time;
+        this.stadiumName = stadiumName;
         this.type = type;
     }
 }
