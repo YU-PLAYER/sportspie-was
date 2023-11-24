@@ -1,6 +1,7 @@
 package com.example.sportspie.bounded_context.game.controller;
 
 import com.example.sportspie.base.api.GameApi;
+import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.base.jwt.util.JwtProvider;
 import com.example.sportspie.bounded_context.auth.service.UserService;
 import com.example.sportspie.bounded_context.game.dto.GameListResponseDto;
@@ -9,29 +10,27 @@ import com.example.sportspie.bounded_context.game.dto.GameUserRequestDto;
 import com.example.sportspie.bounded_context.game.dto.GameRequestDto;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.service.GameService;
-import com.example.sportspie.bounded_context.game.type.GameStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class GameController implements GameApi {
     private final GameService gameService;
-
-//    로그인 header 값
-//    private final JwtProvider jwtProvider;
-//    private final UserService userService;
+    private final JwtProvider jwtProvider;
+    private final UserService userService;
 
     @Override
-    public Game create(GameRequestDto gameRequestDto) {
+    public ResponseEntity<StateResponse> create(GameRequestDto gameRequestDto) {
         return gameService.create(gameRequestDto);
     }
 
@@ -43,6 +42,7 @@ public class GameController implements GameApi {
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
         return gameService.list(startedAt, pageable);
     }
+
     @Override
     public Page<GameListResponseDto> list(String title, Pageable pageable) {
         return gameService.list(title, pageable);
@@ -55,17 +55,19 @@ public class GameController implements GameApi {
     }
 
     @Override
-    public Game personConfirm(GameUserRequestDto gameUserRequestDto) {
+    public ResponseEntity<StateResponse> personConfirm(GameUserRequestDto gameUserRequestDto) {
+        // Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(httpServletRequest).substring(7));
+        Long userId = 1L;
         return gameService.personConfirm(gameUserRequestDto);
     }
 
     @Override
-    public Game resultConfirm(GameResultRequestDto gameResultRequestDto) {
+    public ResponseEntity<StateResponse> resultConfirm(GameResultRequestDto gameResultRequestDto) {
         return gameService.resultConfirm(gameResultRequestDto);
     }
 
     @Override
-    public Game delete(GameUserRequestDto gameUserRequestDto) {
+    public ResponseEntity<StateResponse> delete(GameUserRequestDto gameUserRequestDto) {
         return gameService.delete(gameUserRequestDto);
     }
 }

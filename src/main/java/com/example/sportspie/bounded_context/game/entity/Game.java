@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -30,6 +31,7 @@ public class Game extends BaseTimeEntity {
 	private String title;
 
 	@Column(columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("1")
 	private Integer maxCapacity;
 
 	@Column(nullable = false)
@@ -64,34 +66,49 @@ public class Game extends BaseTimeEntity {
 		this.currentCapacity = currentCapacity;
 	}
 
-	public Boolean isAuthor(Long userId){
-		return author.equals(userId);
+	public Boolean isAuthor(User user){
+		return author.equals(user);
 	}
 
-	/*
-	경기 인원 확정 조건
-	1. 경기 참여 인원 짝수
+	/**
+	 * 경기 인원 확정 조건
+	 * 경기 참여 인원 짝수 (팀 구분 X)
+	 * @return
 	 */
 	public Boolean isSatisfiedCapacity(){
 		return getCurrentCapacity() % 2 == 0;
 	}
 
-	/*
-	경기 결과 확정 조건
-	1. 경기 확정상태
-	2. 경기 시작 시간 이후
+	/**
+	 * 경기 결과 확정 조건
+	 * 경기 시작 시간이 지난 후 && 경기 인원 확정 상태
 	 */
 	public Boolean isSatisfiedResult(){
-		return getStartedAt().isAfter(LocalDateTime.now()) && getStatus().equals(GameStatus.PROGRESS);
+		return getStartedAt().isBefore(LocalDateTime.now()) && getStatus().equals(GameStatus.PROGRESS);
 	}
 
-	/*
-	기존 경기 삭제 조건
-	1. 경기 예정 상태
-	2. 경기 시작 시간 2시간 전
+	/**
+	 * 기존 경기 삭제 조건
+	 * 경기 2시간 전 && 경기 인원 미확정 상태
 	 */
 	public Boolean isSatisfiedDelete(){
-		return getStartedAt().minusHours(2).isBefore(LocalDateTime.now()) && getStatus().equals(GameStatus.BEFORE);
+		return getStartedAt().minusHours(2).isAfter(LocalDateTime.now()) && getStatus().equals(GameStatus.BEFORE);
+	}
+
+	/**
+	 * 경기 참가 신청 조건
+	 * 현재 인원 < 최대 인원
+	 */
+	public Boolean isSatisfiedJoin(){
+		return maxCapacity - currentCapacity > 0;
+	}
+
+	public void increaseCurrentCapacity(){
+		this.currentCapacity += 1;
+	}
+
+	public void decreaseCurrentCapacity(){
+		this.currentCapacity -= 1;
 	}
 
 }
