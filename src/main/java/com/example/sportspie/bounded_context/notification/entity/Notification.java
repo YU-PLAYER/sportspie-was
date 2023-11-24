@@ -2,12 +2,11 @@ package com.example.sportspie.bounded_context.notification.entity;
 
 import com.example.sportspie.base.entity.BaseTimeEntity;
 import com.example.sportspie.bounded_context.auth.entity.User;
+import com.example.sportspie.bounded_context.game.entity.Game;
+import com.example.sportspie.bounded_context.notification.dto.NotificationResponseDto;
 import com.example.sportspie.bounded_context.notification.type.NotificationType;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +21,10 @@ public class Notification extends BaseTimeEntity {
 	@ManyToOne
 	private User receiver;
 
+	@JoinColumn(name = "from_game_id", nullable = false)
+	@ManyToOne
+	private Game fromGame;
+
 	@Column(nullable = false)
 	private String content;
 
@@ -29,8 +32,9 @@ public class Notification extends BaseTimeEntity {
 	private NotificationType type;
 
 	@Builder
-	public Notification(User receiver, NotificationType type) {
+	public Notification(User receiver, Game fromGame, NotificationType type) {
 		this.receiver = receiver;
+		this.fromGame = fromGame;
 		this.type = type;
 		switch (type){
 			case GAME_CONFIRMED:
@@ -46,5 +50,14 @@ public class Notification extends BaseTimeEntity {
                 this.content = "신고가 완료되었습니다.";
                 break;
 		}
+	}
+	public NotificationResponseDto toDto(){
+		return NotificationResponseDto.builder()
+				.type(type)
+				.date(fromGame.getStartedAt().toLocalDate())
+				.time(fromGame.getStartedAt().toLocalTime())
+				.stadiumName(fromGame.getStadium().getName())
+				.content(content)
+				.build();
 	}
 }
