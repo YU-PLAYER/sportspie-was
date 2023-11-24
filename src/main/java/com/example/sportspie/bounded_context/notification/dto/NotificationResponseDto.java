@@ -7,22 +7,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Getter
 @NoArgsConstructor
 public class NotificationRequestDto {
-    private Long receiverId;
+    private String content;
+    private LocalDate date;
+    private LocalTime time;
+    private String stadiumName;
     private NotificationType type;
 
     @Builder
-    public NotificationRequestDto(Long receiverId, NotificationType type) {
-        this.receiverId = receiverId;
+    public NotificationRequestDto(String content, NotificationType type) {
+        this.content = content;
         this.type = type;
-    }
-
-    public Notification toEntity(User receiver){
-        return Notification.builder()
-                .receiver(receiver)
-                .type(type)
-                .build();
     }
 }
