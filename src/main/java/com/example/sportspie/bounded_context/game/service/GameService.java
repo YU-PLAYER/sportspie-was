@@ -3,10 +3,7 @@ package com.example.sportspie.bounded_context.game.service;
 import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
-import com.example.sportspie.bounded_context.game.dto.GameListResponseDto;
-import com.example.sportspie.bounded_context.game.dto.GameResultRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameUserRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameRequestDto;
+import com.example.sportspie.bounded_context.game.dto.*;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.repository.GameRepository;
 import com.example.sportspie.bounded_context.game.type.GameResult;
@@ -71,7 +68,7 @@ public class GameService{
         Page<Game> gamePage;
         if(title.isEmpty()) gamePage = gameRepository.findByStartedAtBetween(startOfDay, endOfDay, pageable);
         else gamePage = gameRepository.findByStartedAtBetweenAndTitleContaining(startOfDay, endOfDay, title, pageable);
-        return gamePage.map(game -> game.toDto());
+        return gamePage.map(game -> game.toListDto());
     }
 
     /**
@@ -79,6 +76,10 @@ public class GameService{
      * @param gameId
      * @return Game [미정]
      */
+    public GameResponseDto detail(Long gameId){
+        return gameRepository.findById(gameId).map(game-> game.toDto()).orElseThrow(()-> new IllegalArgumentException("해당 경기가 없습니다. id=" + gameId));
+    }
+
     public Game read(Long gameId){
         return gameRepository.findById(gameId).orElseThrow(()-> new IllegalArgumentException("해당 경기가 없습니다. id=" + gameId));
     }
