@@ -3,9 +3,8 @@ package com.example.sportspie.bounded_context.notification.service;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
 import com.example.sportspie.bounded_context.game.entity.Game;
-import com.example.sportspie.bounded_context.game.type.GameStatus;
 import com.example.sportspie.bounded_context.gameUser.repository.GameUserRepository;
-import com.example.sportspie.bounded_context.notification.dto.NotificationRequestDto;
+import com.example.sportspie.bounded_context.notification.dto.NotificationResponseDto;
 import com.example.sportspie.bounded_context.notification.entity.Notification;
 import com.example.sportspie.bounded_context.notification.repository.NotificationRepository;
 import com.example.sportspie.bounded_context.notification.type.NotificationType;
@@ -24,13 +23,14 @@ public class NotificationService {
 
     /**
      * 알람 목록 조회
-     * 정렬(createdAt)
      * @param receiverId
      * @return
      */
-    public List<Notification> list(Long receiverId){
+    public List<NotificationResponseDto> list(Long receiverId){
         User user = userService.read(receiverId);
-        return notificationRepository.findByReceiverOrderByCreatedAt(user);
+        return notificationRepository.findByReceiverOrderByCreatedAt(user).stream()
+                .map(notification -> notification.toDto())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -52,6 +52,7 @@ public class NotificationService {
         notificationRepository.saveAll(gameUserRepository.findByJoinGame(game).stream()
                 .map(user -> Notification.builder()
                         .receiver(user)
+                        .fromGame(game)
                         .type(notificationType)
                         .build()).collect(Collectors.toList()));
     }
