@@ -4,10 +4,7 @@ import com.example.sportspie.base.api.GameApi;
 import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.base.jwt.util.JwtProvider;
 import com.example.sportspie.bounded_context.auth.service.UserService;
-import com.example.sportspie.bounded_context.game.dto.GameListResponseDto;
-import com.example.sportspie.bounded_context.game.dto.GameResultRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameUserRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameRequestDto;
+import com.example.sportspie.bounded_context.game.dto.*;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.service.GameService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,23 +32,18 @@ public class GameController implements GameApi {
     }
 
     @Override
-    public Page<GameListResponseDto> list(LocalDate startedAt, String sortBy, Pageable pageable) {
+    public Page<GameListResponseDto> list(LocalDate startedAt, String sortBy, String title, Pageable pageable) {
         Sort sort = Sort.by("startedAt").ascending();
         if(sortBy.equals("DESC")) sort = Sort.by("startedAt").descending();
 
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-        return gameService.list(startedAt, pageable);
+        return gameService.list(startedAt, title, pageable);
     }
 
     @Override
-    public Page<GameListResponseDto> list(String title, Pageable pageable) {
-        return gameService.list(title, pageable);
-    }
-
-    @Override
-    public Game read(Long id, HttpServletRequest httpServletRequest) {
+    public GameResponseDto detail(Long id, HttpServletRequest httpServletRequest) {
         // Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(httpServletRequest).substring(7));
-        return gameService.read(id);
+        return gameService.detail(id);
     }
 
     @Override

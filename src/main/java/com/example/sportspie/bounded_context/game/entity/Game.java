@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import com.example.sportspie.base.entity.BaseTimeEntity;
 import com.example.sportspie.bounded_context.auth.entity.User;
+import com.example.sportspie.bounded_context.game.dto.GameListResponseDto;
+import com.example.sportspie.bounded_context.game.dto.GameResponseDto;
 import com.example.sportspie.bounded_context.game.type.GameResult;
 import com.example.sportspie.bounded_context.game.type.GameStatus;
 import com.example.sportspie.bounded_context.stadium.entity.Stadium;
@@ -64,6 +66,34 @@ public class Game extends BaseTimeEntity {
 		this.status = status;
 		this.result = result;
 		this.currentCapacity = currentCapacity;
+	}
+
+	public GameListResponseDto toListDto(){
+		return GameListResponseDto.builder()
+				.gameId(getId())
+				.gameStatus(status)
+				.title(title)
+				.time(startedAt.toLocalTime())
+				.weather(stadium.getWeatherType())
+				.stadiumName(stadium.getName())
+				.totalPeople(currentCapacity)
+				.currentPeople(currentCapacity)
+				.build();
+	}
+
+	public GameResponseDto toDto(){
+		return GameResponseDto.builder()
+				.gameId(getId())
+				.userId(author.getId())
+				.title(title)
+				.content(content)
+				.stadium(stadium)
+				.maxCapacity(maxCapacity)
+				.currentCapacity(currentCapacity)
+				.startedAt(startedAt)
+				.status(status)
+				.result(result)
+				.build();
 	}
 
 	public Boolean isAuthor(User user){

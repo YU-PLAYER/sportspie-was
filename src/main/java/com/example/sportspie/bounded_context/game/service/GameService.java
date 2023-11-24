@@ -3,10 +3,7 @@ package com.example.sportspie.bounded_context.game.service;
 import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
-import com.example.sportspie.bounded_context.game.dto.GameListResponseDto;
-import com.example.sportspie.bounded_context.game.dto.GameResultRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameUserRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameRequestDto;
+import com.example.sportspie.bounded_context.game.dto.*;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.repository.GameRepository;
 import com.example.sportspie.bounded_context.game.type.GameResult;
@@ -28,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,40 +56,19 @@ public class GameService{
     }
 
     /**
-     * 날짜 별 경기 목록
-     * 정렬 (경기시작시간/오름차순,내림차순)
-     *
-     * 날씨 필요 + Pageable 객체 파라미터
-     * @return Page<GameListResponseDto> [미정]
+     * 날짜 별 경기 목록(오름차순/내림차순/검색)
+     * @param startedAt
+     * @param title
+     * @param pageable
+     * @return
      */
-    public Page<GameListResponseDto> list(LocalDate startedAt, Pageable pageable){
+    public Page<GameListResponseDto> list(LocalDate startedAt, String title, Pageable pageable){
         LocalDateTime startOfDay = startedAt.atStartOfDay();
         LocalDateTime endOfDay = startedAt.atTime(LocalTime.MAX);
-        Page<Game> gamePage = gameRepository.findByStartedAtBetween(startOfDay, endOfDay, pageable);
-        return gamePage.map(game -> GameListResponseDto.builder()
-                    .gameId(game.getId())
-                    .gameStatus(game.getStatus())
-                    .title(game.getTitle())
-                    .time(game.getStartedAt().toLocalTime())
-                    .stadiumName(game.getStadium().getName())
-                    .totalPeople(game.getMaxCapacity())
-                    .currentPeople(game.getCurrentCapacity()).build());
-    }
-
-    /**
-     * 경기 제목 검색
-     * 시작시간 정렬 필요
-     */
-    public Page<GameListResponseDto> list(String title, Pageable pageable){
-        Page<Game> gamePage = gameRepository.findByTitleContaining(title, pageable);
-        return gamePage.map(game -> GameListResponseDto.builder()
-                .gameId(game.getId())
-                .gameStatus(game.getStatus())
-                .title(game.getTitle())
-                .time(game.getStartedAt().toLocalTime())
-                .stadiumName(game.getStadium().getName())
-                .totalPeople(game.getMaxCapacity())
-                .currentPeople(game.getCurrentCapacity()).build());
+        Page<Game> gamePage;
+        if(title.isEmpty()) gamePage = gameRepository.findByStartedAtBetween(startOfDay, endOfDay, pageable);
+        else gamePage = gameRepository.findByStartedAtBetweenAndTitleContaining(startOfDay, endOfDay, title, pageable);
+        return gamePage.map(game -> game.toListDto());
     }
 
     /**
@@ -99,6 +76,10 @@ public class GameService{
      * @param gameId
      * @return Game [미정]
      */
+    public GameResponseDto detail(Long gameId){
+        return gameRepository.findById(gameId).map(game-> game.toDto()).orElseThrow(()-> new IllegalArgumentException("해당 경기가 없습니다. id=" + gameId));
+    }
+
     public Game read(Long gameId){
         return gameRepository.findById(gameId).orElseThrow(()-> new IllegalArgumentException("해당 경기가 없습니다. id=" + gameId));
     }
