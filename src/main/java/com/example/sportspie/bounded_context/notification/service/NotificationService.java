@@ -1,5 +1,6 @@
 package com.example.sportspie.bounded_context.notification.service;
 
+import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
 import com.example.sportspie.bounded_context.game.entity.Game;
@@ -9,6 +10,7 @@ import com.example.sportspie.bounded_context.notification.entity.Notification;
 import com.example.sportspie.bounded_context.notification.repository.NotificationRepository;
 import com.example.sportspie.bounded_context.notification.type.NotificationType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class NotificationService {
      */
     public List<NotificationResponseDto> list(Long receiverId){
         User user = userService.read(receiverId);
-        return notificationRepository.findByReceiverOrderByCreatedAt(user).stream()
+        return notificationRepository.findByReceiverOrderByCreatedAtDesc(user).stream()
                 .map(notification -> notification.toDto())
                 .collect(Collectors.toList());
     }
@@ -38,11 +40,11 @@ public class NotificationService {
      * @param notificationId
      * @return
      */
-    public Notification delete(Long notificationId){
+    public ResponseEntity<StateResponse> delete(Long notificationId){
         Notification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 알람이 없습니다. id = " + notificationId));
         notificationRepository.delete(notification);
-        return notification;
+        return ResponseEntity.ok(StateResponse.builder().code("SUCCESS").message("알람 삭제가 성공적으로 완료되었습니다.").build());
     }
 
     /**
