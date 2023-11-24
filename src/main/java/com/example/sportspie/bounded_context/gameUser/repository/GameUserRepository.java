@@ -2,12 +2,12 @@ package com.example.sportspie.bounded_context.gameUser.repository;
 
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.game.entity.Game;
-import com.example.sportspie.bounded_context.game.type.GameStatus;
 import com.example.sportspie.bounded_context.gameUser.entitiy.GameUser;
 import com.example.sportspie.bounded_context.gameUser.type.GameTeam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,9 +32,13 @@ public interface GameUserRepository extends JpaRepository<GameUser, Long> {
     //isFull : 참가 신청하려는 경기의 팀 인원 조회
     Long countByJoinGameAndTeam(Game joinGame, GameTeam gameTeam);
 
-    //list/after/before : 경기 상태 별 경기 조회
-    @Query("SELECT u FROM GameUser u, Game g WHERE u.joinGame = g and u.joinUser.id = :userId and g.status IN :gameStatuses ORDER BY g.status, g.result nulls first, g.startedAt")
-    List<GameUser> findByGameState(Long userId, GameStatus[] gameStatuses);
+    List<GameUser> findByJoinUser(User user);
+
+    @Query("SELECT u FROM GameUser u, Game g WHERE u.joinGame = g and u.joinUser.id = :userId and g.startedAt > :now and (g.status = 0 or g.status = 1) ORDER BY g.status, g.startedAt DESC")
+    List<GameUser> findByBeforeGame(Long userId, LocalDateTime now);
+
+    @Query("SELECT u FROM GameUser u, Game g WHERE u.joinGame = g and u.joinUser.id = :userId and g.startedAt < :now and (g.status = 1 or g.status = 2) ORDER BY g.status, g.startedAt DESC")
+    List<GameUser> findByAfterGame(Long userId, LocalDateTime now);
 
     //history : 경기 결과가 존재하는 경기 조회 - 전적 조회
     @Query("SELECT u FROM GameUser u, Game g WHERE u.joinGame = g and u.joinUser.id = :userId and g.result is not null ORDER BY g.startedAt")
