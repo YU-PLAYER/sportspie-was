@@ -35,17 +35,12 @@ public class GameController implements GameApi {
     }
 
     @Override
-    public Page<GameListResponseDto> list(LocalDate startedAt, String sortBy, Pageable pageable) {
+    public Page<GameListResponseDto> list(LocalDate startedAt, String sortBy, String title, Pageable pageable) {
         Sort sort = Sort.by("startedAt").ascending();
         if(sortBy.equals("DESC")) sort = Sort.by("startedAt").descending();
 
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-        return gameService.list(startedAt, pageable);
-    }
-
-    @Override
-    public Page<GameListResponseDto> list(String title, Pageable pageable) {
-        return gameService.list(title, pageable);
+        return gameService.list(startedAt, title, pageable);
     }
 
     @Override

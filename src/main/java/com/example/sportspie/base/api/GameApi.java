@@ -30,10 +30,7 @@ public interface GameApi {
     @Operation(summary = "Game 날짜별 목록 조회 메서드", description = "사용자가 시스템의 모든 경기 목록을 날짜별로 조회하기 위한 메서드 입니다.")
     Page<GameListResponseDto> list(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable LocalDate startedAt,
                                    @RequestParam(name = "sortBy", defaultValue = "ASC")String sort,
-                                   @PageableDefault(page = 0, size = 10) Pageable pageable);
-    @GetMapping("/search")
-    @Operation(summary = "Game 제목 검색 메서드", description = "사용자가 시스템의 모든 경기 목록에 대해 제목으로 검색하기 위한 메서드 입니다.")
-    Page<GameListResponseDto> list(@RequestParam(name = "title", defaultValue = "")String title,
+                                   @RequestParam(name = "title", defaultValue = "")String title,
                                    @PageableDefault(page = 0, size = 10) Pageable pageable);
 
     @GetMapping("/detail/{id}")
@@ -42,7 +39,7 @@ public interface GameApi {
 
     @PatchMapping("/progress")
     @Operation(summary = "Game 인원 확정 메서드", description = "경기 인원 모집글 작성자가 경기 인원 확정 조건을 만족할 때 경기 인원을 확정하기 위한 메서드 입니다.")
-    ResponseEntity<StateResponse> personConfirm(@RequestParam GameUserRequestDto gameUserRequestDto);
+    ResponseEntity<StateResponse> personConfirm(@RequestBody GameUserRequestDto gameUserRequestDto);
 
     @PatchMapping("/after")
     @Operation(summary = "Game 결과 확정 메서드", description = "경기 인원 모집글 작성자가 경기 결과 확정 조건을 만족할 때 경기 결과를 확정하기 위한 메서드 입니다.")
