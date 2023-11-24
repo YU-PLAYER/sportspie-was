@@ -1,10 +1,7 @@
 package com.example.sportspie.base.api;
 
 import com.example.sportspie.base.error.StateResponse;
-import com.example.sportspie.bounded_context.game.dto.GameListResponseDto;
-import com.example.sportspie.bounded_context.game.dto.GameResultRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameUserRequestDto;
-import com.example.sportspie.bounded_context.game.dto.GameRequestDto;
+import com.example.sportspie.bounded_context.game.dto.*;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +32,7 @@ public interface GameApi {
 
     @GetMapping("/detail/{id}")
     @Operation(summary = "Game 상세 조회 메서드", description = "로그인한 사용자가 경기 정보를 상세 조회하기 위한 메서드 입니다.")
-    Game read(@PathVariable Long id, HttpServletRequest request);
+    GameResponseDto detail(@PathVariable Long id, HttpServletRequest request);
 
     @PatchMapping("/progress")
     @Operation(summary = "Game 인원 확정 메서드", description = "경기 인원 모집글 작성자가 경기 인원 확정 조건을 만족할 때 경기 인원을 확정하기 위한 메서드 입니다.")
