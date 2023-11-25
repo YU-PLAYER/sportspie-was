@@ -33,7 +33,6 @@ public class Game extends BaseTimeEntity {
 	private String title;
 
 	@Column(columnDefinition = "TINYINT", nullable = false)
-	@ColumnDefault("1")
 	private Integer maxCapacity;
 
 	@Column(nullable = false)
@@ -53,6 +52,7 @@ public class Game extends BaseTimeEntity {
 	private GameResult result;
 
 	@Column(columnDefinition = "TINYINT", nullable = false)
+	@ColumnDefault("1")
 	private Integer currentCapacity;
 
 	@Builder
@@ -76,7 +76,7 @@ public class Game extends BaseTimeEntity {
 				.time(startedAt.toLocalTime())
 				.weather(stadium.getWeatherType())
 				.stadiumName(stadium.getName())
-				.totalPeople(currentCapacity)
+				.totalPeople(maxCapacity)
 				.currentPeople(currentCapacity)
 				.build();
 	}

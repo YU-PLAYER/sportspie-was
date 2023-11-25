@@ -41,6 +41,7 @@ public class GameRequestDto {
                 .stadium(stadium)
                 .content(content)
                 .status(GameStatus.BEFORE)
+                .currentCapacity(1)
                 .result(null) //mysql result nullable - false
                 .build();
     }
