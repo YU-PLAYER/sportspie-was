@@ -2,7 +2,9 @@ package com.example.sportspie.base.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.sportspie.bounded_context.auth.entity.User;
@@ -20,9 +22,9 @@ public interface UserApi {
 
 	@PutMapping("/me")
 	@Operation(summary = "사용자 본인 정보 수정 메서드", description = "사용자가 본인의 정보를 수정하기 위한 메서드입니다.")
-	ResponseEntity<User> update(HttpServletRequest request, User user);
+	ResponseEntity<User> update(HttpServletRequest request, @RequestBody User user);
 
 	@GetMapping("/{userId}")
 	@Operation(summary = "사용자 정보 조회 메서드", description = "사용자가 다른 사용자의 정보를 조회하기 위한 메서드입니다.")
-	ResponseEntity<User> read(Long userId);
+	ResponseEntity<User> read(@PathVariable Long userId);
 }
