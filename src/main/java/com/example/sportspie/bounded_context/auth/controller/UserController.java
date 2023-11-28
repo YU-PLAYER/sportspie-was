@@ -22,4 +22,15 @@ public class UserController implements UserApi {
 		Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
 		return ResponseEntity.ok(userService.read(userId));
 	}
+
+	@Override
+	public ResponseEntity<User> update(HttpServletRequest request, User userInfo) {
+		Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
+		return ResponseEntity.ok(userService.update(userId, userInfo));
+	}
+
+	@Override
+	public ResponseEntity<User> read(Long userId) {
+		return ResponseEntity.ok(userService.read(userId));
+	}
 }
