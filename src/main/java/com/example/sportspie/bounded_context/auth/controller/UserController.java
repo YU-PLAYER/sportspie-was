@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.sportspie.base.api.UserApi;
 import com.example.sportspie.base.jwt.util.JwtProvider;
+import com.example.sportspie.bounded_context.auth.dto.UserInfoDto;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
 
@@ -24,9 +25,9 @@ public class UserController implements UserApi {
 	}
 
 	@Override
-	public ResponseEntity<User> update(HttpServletRequest request, User userInfo) {
+	public ResponseEntity<User> update(HttpServletRequest request, UserInfoDto userInfoDto) {
 		Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
-		return ResponseEntity.ok(userService.update(userId, userInfo));
+		return ResponseEntity.ok(userService.update(userId, userInfoDto));
 	}
 
 	@Override

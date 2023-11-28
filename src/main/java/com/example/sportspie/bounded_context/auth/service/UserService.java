@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.sportspie.bounded_context.auth.dto.UserInfoDto;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.repository.UserRepository;
 import com.example.sportspie.bounded_context.auth.type.OAuthPlatform;
@@ -28,9 +29,9 @@ public class UserService {
 				.orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. username=" + username));
 	}
 
-	public User update(Long userId, User userInfo) {
+	public User update(Long userId, UserInfoDto userInfoDto) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
-		userRepository.save(userInfo);
+		userRepository.save(userInfoDto.toEntity(user));
 		return user;
 	}
 
@@ -47,4 +48,5 @@ public class UserService {
 	public List<User> list() {
 		return userRepository.findAll();
 	}
+
 }
