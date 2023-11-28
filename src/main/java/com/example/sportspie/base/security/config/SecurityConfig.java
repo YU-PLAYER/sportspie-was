@@ -32,19 +32,7 @@ public class SecurityConfig {
 		httpSecurity.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(authorizeHttpRequests ->
 						authorizeHttpRequests.requestMatchers(
-										"/swagger-resources/**",
-										"/swagger-ui/**",
-										"/v3/api-docs/**",
-										"/webjars/**",
-										"/error",
-										"/api/auth/**",
-										"/api/auth/sign-in/**",
-										"/api/banner",
-										"/api/notice/**",
-										"/api/notification/**",
-										"/api/stadium/**",
-										"/api/gameUser/**",
-										"/api/game/**").permitAll()
+										"/**").permitAll()
 								.anyRequest().authenticated())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(exceptionHandling -> exceptionHandling
