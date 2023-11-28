@@ -48,4 +48,8 @@ public class AuthService {
 	public OAuthTokenDto signInWithToken(OAuthPlatform platform, String code) {
 		return oAuthBridge.getService(platform).getToken(code);
 	}
+
+	public User withdrawal(Long userId) {
+		return userService.delete(userId);
+	}
 }
