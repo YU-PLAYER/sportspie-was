@@ -34,9 +34,9 @@ public interface GameApi {
     @Operation(summary = "Game 상세 조회 메서드", description = "로그인한 사용자가 경기 정보를 상세 조회하기 위한 메서드 입니다.")
     GameResponseDto detail(@PathVariable Long id, HttpServletRequest request);
 
-    @PatchMapping("/progress")
+    @PatchMapping("/detail/{id}/progress")
     @Operation(summary = "Game 인원 확정 메서드", description = "경기 인원 모집글 작성자가 경기 인원 확정 조건을 만족할 때 경기 인원을 확정하기 위한 메서드 입니다.")
-    ResponseEntity<StateResponse> personConfirm(@RequestBody GameUserRequestDto gameUserRequestDto);
+    ResponseEntity<StateResponse> personConfirm(@PathVariable Long id, HttpServletRequest request);
 
     @PatchMapping("/after")
     @Operation(summary = "Game 결과 확정 메서드", description = "경기 인원 모집글 작성자가 경기 결과 확정 조건을 만족할 때 경기 결과를 확정하기 위한 메서드 입니다.")
