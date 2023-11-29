@@ -3,6 +3,7 @@ package com.example.sportspie.bounded_context.auth.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.sportspie.bounded_context.auth.dto.UserInfoDto;
 import com.example.sportspie.bounded_context.auth.entity.User;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+	private final S3Service s3Service;
 	private final UserRepository userRepository;
 
 	public User create(User user) {
@@ -49,4 +51,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public String uploadImage(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
+	}
 }
