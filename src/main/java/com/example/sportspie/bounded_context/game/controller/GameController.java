@@ -53,8 +53,9 @@ public class GameController implements GameApi {
     }
 
     @Override
-    public ResponseEntity<StateResponse> resultConfirm(GameResultRequestDto gameResultRequestDto) {
-        return gameService.resultConfirm(gameResultRequestDto);
+    public ResponseEntity<StateResponse> resultConfirm(GameResultRequestDto gameResultRequestDto, HttpServletRequest request) {
+        Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
+        return gameService.resultConfirm(userId, gameResultRequestDto);
     }
 
     @Override

@@ -107,14 +107,15 @@ public class GameService{
 
     /**
      * 경기 결과 확정
-     * @param request
+     * @param userId
+     * @param gameResultRequestDto
      * @return
      */
     @Transactional
-    public ResponseEntity<StateResponse> resultConfirm(GameResultRequestDto request){
-        User user = userService.read(request.getUserId());
-        Game game = read(request.getGameId());
-        GameResult gameResult = request.getGameResult();
+    public ResponseEntity<StateResponse> resultConfirm(Long userId, GameResultRequestDto gameResultRequestDto){
+        User user = userService.read(userId);
+        Game game = read(gameResultRequestDto.getGameId());
+        GameResult gameResult = gameResultRequestDto.getGameResult();
 
         if(!game.isAuthor(user)) throw new IllegalArgumentException("작성자만 경기 결과를 확정할 수 있습니다.");
         if(!game.isSatisfiedResult()) throw new IllegalArgumentException("경기 인원이 확정되었고 경기 시작시간이 지난 경기만 결과를 확정할 수 있습니다.");
