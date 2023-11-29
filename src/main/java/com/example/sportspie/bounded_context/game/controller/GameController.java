@@ -42,15 +42,14 @@ public class GameController implements GameApi {
 
     @Override
     public GameResponseDto detail(Long id, HttpServletRequest httpServletRequest) {
-        // Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(httpServletRequest).substring(7));
+        //Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(httpServletRequest).substring(7));
         return gameService.detail(id);
     }
 
     @Override
-    public ResponseEntity<StateResponse> personConfirm(GameUserRequestDto gameUserRequestDto) {
-        // Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(httpServletRequest).substring(7));
-        Long userId = 1L;
-        return gameService.personConfirm(gameUserRequestDto);
+    public ResponseEntity<StateResponse> personConfirm(Long gameId, HttpServletRequest request) {
+        Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
+        return gameService.personConfirm(userId, gameId);
     }
 
     @Override

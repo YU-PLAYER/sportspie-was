@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -87,13 +86,14 @@ public class GameService{
 
     /**
      * 경기 인원 확정
-     * @param request
+     * @param userId
+     * @param gameId
      * @return
      */
     @Transactional
-    public ResponseEntity<StateResponse> personConfirm(GameUserRequestDto request){
-        Game game = read(request.getGameId());
-        User user = userService.read(request.getUserId());
+    public ResponseEntity<StateResponse> personConfirm(Long userId, Long gameId){
+        Game game = read(gameId);
+        User user = userService.read(userId);
 
         if(!game.isAuthor(user)) throw new IllegalArgumentException("작성자만 경기 인원을 확정할 수 있습니다.");
         if(!game.isSatisfiedCapacity()) throw new IllegalArgumentException("해당 경기의 양 팀 인원 수가 맞지 않습니다.");
