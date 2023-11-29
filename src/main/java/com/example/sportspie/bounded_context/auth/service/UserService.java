@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.sportspie.bounded_context.auth.dto.ImageUrlResponseDto;
 import com.example.sportspie.bounded_context.auth.dto.UserInfoDto;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.repository.UserRepository;
@@ -51,7 +52,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public String uploadImage(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+	public ImageUrlResponseDto uploadImage(MultipartFile multipartFile) {
+		return new ImageUrlResponseDto(s3Service.uploadFile(multipartFile));
 	}
 }

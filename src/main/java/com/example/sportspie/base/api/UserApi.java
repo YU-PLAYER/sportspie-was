@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.sportspie.bounded_context.auth.dto.ImageUrlResponseDto;
 import com.example.sportspie.bounded_context.auth.dto.UserInfoDto;
 import com.example.sportspie.bounded_context.auth.entity.User;
 
@@ -34,5 +35,5 @@ public interface UserApi {
 
 	@PostMapping("/image")
 	@Operation(summary = "사용자 이미지 업로드 메서드", description = "사용자가 이미지를 업로드하기 위한 메서드입니다.")
-	ResponseEntity<String> uploadImage(@RequestParam(value = "file") MultipartFile multipartFile);
+	ResponseEntity<ImageUrlResponseDto> uploadImage(@RequestParam(value = "file") MultipartFile multipartFile);
 }
