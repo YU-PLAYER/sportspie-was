@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.example.sportspie.bounded_context.auth.config.KakaoConfig;
 import com.example.sportspie.bounded_context.auth.dto.OAuthTokenDto;
@@ -65,6 +66,42 @@ public class KakaoService implements OAuthService {
 
 	@Override
 	public OAuthTokenDto getToken(String authorizationCode) {
+		try {
+			URL url = new URL(UriComponentsBuilder
+					.fromUriString(kakaoConfig.getTokenUri())
+					.queryParam("grant_type", "authorization_code")
+					.queryParam("client_id", kakaoConfig.getClientId())
+					.queryParam("client_secret", kakaoConfig.getClientSecret())
+					.queryParam("code", authorizationCode)
+					.build()
+					.toString());
+
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			con.setRequestMethod("GET");
+
+			int responseCode = con.getResponseCode();
+			BufferedReader br;
+
+			if (responseCode == 200) { // 정상 호출
+				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else {  // 에러 발생
+				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+			while ((inputLine = br.readLine()) != null) {
+				response.append(inputLine);
+			}
+
+			br.close();
+
+			JsonElement element = parser.parse(response.toString());
+
+			return new OAuthTokenDto(element.getAsJsonObject().get("access_token").getAsString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
