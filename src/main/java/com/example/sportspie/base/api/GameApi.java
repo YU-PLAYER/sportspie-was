@@ -40,7 +40,7 @@ public interface GameApi {
 
     @PatchMapping("/after")
     @Operation(summary = "Game 결과 확정 메서드", description = "경기 인원 모집글 작성자가 경기 결과 확정 조건을 만족할 때 경기 결과를 확정하기 위한 메서드 입니다.")
-    ResponseEntity<StateResponse> resultConfirm(@RequestBody GameResultRequestDto gameResultRequestDto);
+    ResponseEntity<StateResponse> resultConfirm(@RequestBody GameResultRequestDto gameResultRequestDto, HttpServletRequest request);
 
     @PostMapping("/delete")
     @Operation(summary = "Game 삭제 메서드", description = "경기 인원 모집글 작성자가 경기 삭제 조건을 만족할 때 경기를 삭제하기 위한 메서드 입니다.")
