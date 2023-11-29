@@ -8,13 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class GameResultRequestDto {
-    private Long userId;
     private Long gameId;
     private GameResult gameResult;
 
     @Builder
     public GameResultRequestDto(Long userId, Long gameId, GameResult gameResult) {
-        this.userId = userId;
         this.gameId = gameId;
         this.gameResult = gameResult;
     }
