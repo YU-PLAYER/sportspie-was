@@ -40,10 +40,13 @@ public class NotificationService {
      * @param notificationId
      * @return
      */
-    public ResponseEntity<StateResponse> delete(Long notificationId){
+    public ResponseEntity<StateResponse> delete(Long userId, Long notificationId){
         Notification notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 알람이 없습니다. id = " + notificationId));
+        if(notification.getReceiver().getId() != userId) throw new IllegalArgumentException("해당 알람이 없습니다. id = " + notificationId);
+
         notificationRepository.delete(notification);
+
         return ResponseEntity.ok(StateResponse.builder().code("SUCCESS").message("알람 삭제가 성공적으로 완료되었습니다.").build());
     }
 
