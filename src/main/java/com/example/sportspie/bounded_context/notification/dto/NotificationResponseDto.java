@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @Getter
 @NoArgsConstructor
 public class NotificationResponseDto {
+    private Long id;
     private String content;
     private LocalDate date;
     private LocalTime time;
@@ -18,7 +19,8 @@ public class NotificationResponseDto {
     private NotificationType type;
 
     @Builder
-    public NotificationResponseDto(String content, LocalDate date, LocalTime time, String stadiumName, NotificationType type) {
+    public NotificationResponseDto(Long id, String content, LocalDate date, LocalTime time, String stadiumName, NotificationType type) {
+        this.id = id;
         this.content = content;
         this.date = date;
         this.time = time;
