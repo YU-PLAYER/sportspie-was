@@ -59,7 +59,8 @@ public class GameController implements GameApi {
     }
 
     @Override
-    public ResponseEntity<StateResponse> delete(GameUserRequestDto gameUserRequestDto) {
-        return gameService.delete(gameUserRequestDto);
+    public ResponseEntity<StateResponse> delete(Long gameId, HttpServletRequest request) {
+        Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
+        return gameService.delete(userId, gameId);
     }
 }
