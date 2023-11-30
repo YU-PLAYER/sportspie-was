@@ -20,7 +20,7 @@ public interface GameUserApi {
 
     @PostMapping("")
     @Operation(summary = "GameUser 생성 메서드", description = "사용자가 경기에 참여하기 위한 위한 메서드입니다.")
-    ResponseEntity<StateResponse> create(@RequestBody GameUserRequestDto gameUserRequestDto);
+    ResponseEntity<StateResponse> create(@RequestBody GameUserRequestDto gameUserRequestDto, HttpServletRequest request);
 
     @GetMapping("/list")
     @Operation(summary = "GameUser 모든 경기 목록 조회 메서드", description = "사용자가 참여한 모든 경기 목록을 조회하기 위한 메서드 입니다.")
@@ -36,11 +36,15 @@ public interface GameUserApi {
 
     @PostMapping("/delete")
     @Operation(summary = "GameUser 삭제 메서드", description = "사용자가 경기 참여를 취소하기 위한 메서드 입니다.")
-    ResponseEntity<StateResponse> delete(@RequestBody GameUserRequestDto gameUserRequestDto);
+    ResponseEntity<StateResponse> delete(@RequestBody GameUserRequestDto gameUserRequestDto, HttpServletRequest request);
 
     @GetMapping("/history")
     @Operation(summary = "GameUser 전적 조회 메서드", description = "사용자의 전적을 조회하기 위한 메서드 입니다.")
     UserRecordResponseDto history(HttpServletRequest request);
+
+    @GetMapping("/history/{userId}")
+    @Operation(summary = "GameUser 전적 조회 메서드", description = "다른 사용자의 전적을 조회하기 위한 메서드 입니다.")
+    UserRecordResponseDto history(@PathVariable Long userId, HttpServletRequest request);
 
     @GetMapping("/join/{gameId}")
     @Operation(summary = "GameUser 참여 인원 조회 메서드", description = "경기에 참가 신청을 한 모든 유저를 조회하기 위한 메서드 입니다.")

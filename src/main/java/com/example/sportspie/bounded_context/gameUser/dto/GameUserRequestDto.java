@@ -11,13 +11,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class GameUserRequestDto {
-    private Long userId;
     private Long gameId;
     private GameTeam gameTeam;
 
     @Builder
     public GameUserRequestDto(Long userId, Long gameId, GameTeam gameTeam) {
-        this.userId = userId;
         this.gameId = gameId;
         this.gameTeam = gameTeam;
     }

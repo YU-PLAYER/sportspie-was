@@ -43,8 +43,8 @@ public class GameUserService {
      * @return
      */
     @Transactional
-    public ResponseEntity<StateResponse> create(GameUserRequestDto gameUserRequestDto){
-        User user = userService.read(gameUserRequestDto.getUserId());
+    public ResponseEntity<StateResponse> create(Long userId, GameUserRequestDto gameUserRequestDto){
+        User user = userService.read(userId);
         Game game = gameService.read(gameUserRequestDto.getGameId());
         GameUser gameUser = read(user, game);
 
@@ -57,7 +57,7 @@ public class GameUserService {
         gameUser = gameUserRepository.save(gameUserRequestDto.toEntity(user, game));
         game.increaseCurrentCapacity();
 
-        return ResponseEntity.ok(StateResponse.builder().code("SUCCESS").message("경기 참여를 성공적으로 완료했습니다.").build());
+        return ResponseEntity.ok(StateResponse.builder().code("SUCCESS").message("\" " + game.getTitle() + " \" 경기 참여를 성공적으로 완료했습니다.").build());
     }
 
     /**
@@ -65,8 +65,8 @@ public class GameUserService {
      * @param gameUserRequestDto
      * @return
      */
-    public ResponseEntity<StateResponse> delete(GameUserRequestDto gameUserRequestDto){
-        User user = userService.read(gameUserRequestDto.getUserId());
+    public ResponseEntity<StateResponse> delete(Long userId, GameUserRequestDto gameUserRequestDto){
+        User user = userService.read(userId);
         Game game = gameService.read(gameUserRequestDto.getGameId());
         GameUser gameUser = read(user, game);
 
@@ -79,7 +79,7 @@ public class GameUserService {
         gameUserRepository.delete(gameUser);
         game.decreaseCurrentCapacity();
 
-        return ResponseEntity.ok(StateResponse.builder().code("SUCCESS").message("경기 참여 취소를 성공적으로 완료했습니다.").build());
+        return ResponseEntity.ok(StateResponse.builder().code("SUCCESS").message("\" " + game.getTitle() + " \" 경기 참여 취소를 성공적으로 완료했습니다.").build());
     }
 
 
