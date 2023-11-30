@@ -2,7 +2,6 @@ package com.example.sportspie.base.api;
 
 import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.bounded_context.game.dto.*;
-import com.example.sportspie.bounded_context.game.entity.Game;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,7 +41,7 @@ public interface GameApi {
     @Operation(summary = "Game 결과 확정 메서드", description = "경기 인원 모집글 작성자가 경기 결과 확정 조건을 만족할 때 경기 결과를 확정하기 위한 메서드 입니다.")
     ResponseEntity<StateResponse> resultConfirm(@RequestBody GameResultRequestDto gameResultRequestDto, HttpServletRequest request);
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary = "Game 삭제 메서드", description = "경기 인원 모집글 작성자가 경기 삭제 조건을 만족할 때 경기를 삭제하기 위한 메서드 입니다.")
     ResponseEntity<StateResponse> delete(@PathVariable Long id, HttpServletRequest request);
 }
