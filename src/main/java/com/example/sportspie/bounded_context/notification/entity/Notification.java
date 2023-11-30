@@ -53,6 +53,7 @@ public class Notification extends BaseTimeEntity {
 	}
 	public NotificationResponseDto toDto(){
 		return NotificationResponseDto.builder()
+				.id(getId())
 				.type(type)
 				.date(fromGame.getStartedAt().toLocalDate())
 				.time(fromGame.getStartedAt().toLocalTime())
