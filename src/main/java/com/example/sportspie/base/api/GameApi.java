@@ -29,19 +29,19 @@ public interface GameApi {
                                    @RequestParam(name = "title", defaultValue = "")String title,
                                    @PageableDefault(page = 0, size = 10) Pageable pageable);
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/detail/{gameId}")
     @Operation(summary = "Game 상세 조회 메서드", description = "로그인한 사용자가 경기 정보를 상세 조회하기 위한 메서드 입니다.")
-    GameResponseDto detail(@PathVariable Long id, HttpServletRequest request);
+    GameResponseDto detail(@PathVariable Long gameId, HttpServletRequest request);
 
-    @PatchMapping("/detail/{id}/progress")
+    @PatchMapping("/detail/{gameId}/progress")
     @Operation(summary = "Game 인원 확정 메서드", description = "경기 인원 모집글 작성자가 경기 인원 확정 조건을 만족할 때 경기 인원을 확정하기 위한 메서드 입니다.")
-    ResponseEntity<StateResponse> personConfirm(@PathVariable Long id, HttpServletRequest request);
+    ResponseEntity<StateResponse> personConfirm(@PathVariable Long gameId, HttpServletRequest request);
 
     @PatchMapping("/after")
     @Operation(summary = "Game 결과 확정 메서드", description = "경기 인원 모집글 작성자가 경기 결과 확정 조건을 만족할 때 경기 결과를 확정하기 위한 메서드 입니다.")
     ResponseEntity<StateResponse> resultConfirm(@RequestBody GameResultRequestDto gameResultRequestDto, HttpServletRequest request);
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{gameId}")
     @Operation(summary = "Game 삭제 메서드", description = "경기 인원 모집글 작성자가 경기 삭제 조건을 만족할 때 경기를 삭제하기 위한 메서드 입니다.")
-    ResponseEntity<StateResponse> delete(@PathVariable Long id, HttpServletRequest request);
+    ResponseEntity<StateResponse> delete(@PathVariable Long gameId, HttpServletRequest request);
 }
