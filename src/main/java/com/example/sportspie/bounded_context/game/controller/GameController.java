@@ -5,7 +5,6 @@ import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.base.jwt.util.JwtProvider;
 import com.example.sportspie.bounded_context.auth.service.UserService;
 import com.example.sportspie.bounded_context.game.dto.*;
-import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.service.GameService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -27,8 +25,9 @@ public class GameController implements GameApi {
     private final UserService userService;
 
     @Override
-    public ResponseEntity<StateResponse> create(GameRequestDto gameRequestDto) {
-        return gameService.create(gameRequestDto);
+    public ResponseEntity<StateResponse> create(GameRequestDto gameRequestDto, HttpServletRequest request) {
+        Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
+        return gameService.create(userId, gameRequestDto);
     }
 
     @Override
@@ -41,9 +40,9 @@ public class GameController implements GameApi {
     }
 
     @Override
-    public GameResponseDto detail(Long id, HttpServletRequest httpServletRequest) {
-        //Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(httpServletRequest).substring(7));
-        return gameService.detail(id);
+    public GameResponseDto detail(Long gameId, HttpServletRequest request) {
+        Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
+        return gameService.detail(gameId);
     }
 
     @Override
