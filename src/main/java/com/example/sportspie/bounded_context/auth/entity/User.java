@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.sportspie.base.entity.BaseTimeEntity;
+import com.example.sportspie.bounded_context.auth.dto.UserInfoDto;
 import com.example.sportspie.bounded_context.auth.type.OAuthPlatform;
 
 import jakarta.persistence.Column;
@@ -146,5 +147,26 @@ public class User extends BaseTimeEntity implements UserDetails {
 		this.publicInformation = publicInformation != null ? publicInformation : Boolean.FALSE;
 		this.publicIntroduce = publicIntroduce != null ? publicIntroduce : Boolean.FALSE;
 		this.publicRecord = publicRecord != null ? publicRecord : Boolean.FALSE;
+	}
+
+	public User update(UserInfoDto userInfoDto) {
+		this.email = userInfoDto.getEmail();
+		this.nickname = userInfoDto.getNickname();
+		this.gender = userInfoDto.getGender();
+		this.age = userInfoDto.getAge();
+		this.region = userInfoDto.getRegion();
+		this.height = userInfoDto.getHeight();
+		this.weight = userInfoDto.getWeight();
+		this.introduce = userInfoDto.getIntroduce();
+		this.attacker = userInfoDto.getAttacker();
+		this.midfielder = userInfoDto.getMidfielder();
+		this.defender = userInfoDto.getDefender();
+		this.goalkeeper = userInfoDto.getGoalkeeper();
+		this.publicProfile = userInfoDto.getIsPublicProfile();
+		this.publicInformation = userInfoDto.getIsPublicInformation();
+		this.publicIntroduce = userInfoDto.getIsPublicIntroduce();
+		this.publicRecord = userInfoDto.getIsPublicRecord();
+		this.imageUrl = userInfoDto.getImageUrl();
+		return this;
 	}
 }

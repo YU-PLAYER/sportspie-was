@@ -34,7 +34,7 @@ public class UserService {
 
 	public User update(Long userId, UserInfoDto userInfoDto) {
 		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다. id=" + userId));
-		userRepository.save(userInfoDto.toEntity(user));
+		userRepository.save(user.update(userInfoDto));
 		return user;
 	}
 
