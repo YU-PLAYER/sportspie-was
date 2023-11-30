@@ -2,9 +2,11 @@ package com.example.sportspie.bounded_context.auth.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.sportspie.base.api.UserApi;
 import com.example.sportspie.base.jwt.util.JwtProvider;
+import com.example.sportspie.bounded_context.auth.dto.ImageUrlResponseDto;
 import com.example.sportspie.bounded_context.auth.dto.UserInfoDto;
 import com.example.sportspie.bounded_context.auth.entity.User;
 import com.example.sportspie.bounded_context.auth.service.UserService;
@@ -33,5 +35,10 @@ public class UserController implements UserApi {
 	@Override
 	public ResponseEntity<User> read(Long userId) {
 		return ResponseEntity.ok(userService.read(userId));
+	}
+
+	@Override
+	public ResponseEntity<ImageUrlResponseDto> uploadImage(MultipartFile multipartFile) {
+		return ResponseEntity.ok(userService.uploadImage(multipartFile));
 	}
 }

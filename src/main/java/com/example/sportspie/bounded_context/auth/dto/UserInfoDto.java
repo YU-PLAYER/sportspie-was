@@ -27,6 +27,7 @@ public class UserInfoDto {
 	private Boolean isPublicInformation;
 	private Boolean isPublicIntroduce;
 	private Boolean isPublicRecord;
+	private String imageUrl;
 
 	public User toEntity(User user) {
 		return User.builder()
@@ -47,6 +48,7 @@ public class UserInfoDto {
 				.publicInformation(isPublicInformation)
 				.publicIntroduce(isPublicIntroduce)
 				.publicRecord(isPublicRecord)
+				.imageUrl(imageUrl)
 				.build();
 	}
 }

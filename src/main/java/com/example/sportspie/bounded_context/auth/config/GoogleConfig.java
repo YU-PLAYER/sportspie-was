@@ -12,4 +12,8 @@ import lombok.Setter;
 @Setter
 public class GoogleConfig {
 	private String userInfoUri;
+	private String tokenUri;
+	private String clientId;
+	private String clientSecret;
+	private String redirectUri;
 }
