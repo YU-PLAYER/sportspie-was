@@ -21,7 +21,7 @@ public interface GameApi {
 
     @PostMapping("")
     @Operation(summary = "Game 생성 메서드", description = "로그인한 사용자가 경기를 생성하기 위한 메서드 입니다.")
-    ResponseEntity<StateResponse> create(@RequestBody GameRequestDto gameRequestDto);
+    ResponseEntity<StateResponse> create(@RequestBody GameRequestDto gameRequestDto, HttpServletRequest request);
 
     @GetMapping("/{startedAt}")
     @Operation(summary = "Game 날짜별 목록 조회 메서드", description = "사용자가 시스템의 모든 경기 목록을 날짜별로 조회하기 위한 메서드 입니다.")
