@@ -3,7 +3,6 @@ package com.example.sportspie.bounded_context.game.controller;
 import com.example.sportspie.base.api.GameApi;
 import com.example.sportspie.base.error.StateResponse;
 import com.example.sportspie.base.jwt.util.JwtProvider;
-import com.example.sportspie.bounded_context.auth.service.UserService;
 import com.example.sportspie.bounded_context.game.dto.*;
 import com.example.sportspie.bounded_context.game.service.GameService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import java.time.LocalDate;
 public class GameController implements GameApi {
     private final GameService gameService;
     private final JwtProvider jwtProvider;
-    private final UserService userService;
 
     @Override
     public ResponseEntity<StateResponse> create(GameRequestDto gameRequestDto, HttpServletRequest request) {
@@ -41,7 +39,6 @@ public class GameController implements GameApi {
 
     @Override
     public GameResponseDto detail(Long gameId, HttpServletRequest request) {
-        Long userId = jwtProvider.getUserId(jwtProvider.resolveToken(request).substring(7));
         return gameService.detail(gameId);
     }
 
