@@ -71,10 +71,12 @@ public class GameUser extends BaseTimeEntity {
                 .userId(user.getId()) //redirection user profile
                 .name(user.getNickname())
                 .imgUrl(user.getImageUrl())
-                .position(Position.FW) //require user get position
+                .goalkeeper(user.getGoalkeeper())
+                .defender(user.getDefender())
+                .midfielder(user.getMidfielder())
+                .attacker(user.getAttacker())
                 .gameTeam(team)
                 .updatedAt(getUpdatedAt()) //order by
                 .build();
     }
-
 }
