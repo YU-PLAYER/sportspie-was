@@ -37,11 +37,12 @@ public class GameService{
 
     /**
      * 경기 생성
+     * @param userId
      * @param gameRequestDto
      * @return
      */
-    public ResponseEntity<StateResponse> create(GameRequestDto gameRequestDto){
-        User author = userService.read(gameRequestDto.getAuthorId());
+    public ResponseEntity<StateResponse> create(Long userId, GameRequestDto gameRequestDto){
+        User author = userService.read(userId);
         Stadium stadium = stadiumService.read(gameRequestDto.getStadiumId().intValue());
 
         //로직
