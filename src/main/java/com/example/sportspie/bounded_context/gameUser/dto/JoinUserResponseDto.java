@@ -15,16 +15,22 @@ public class JoinUserResponseDto {
     private Long userId;
     private String name;
     private String imgUrl;
-    private Position position;
+    private Boolean goalkeeper;
+    private Boolean defender;
+    private Boolean midfielder;
+    private Boolean attacker;
     private GameTeam gameTeam;
     private LocalDateTime updatedAt;
 
     @Builder
-    public JoinUserResponseDto(Long userId, String name, String imgUrl, Position position, GameTeam gameTeam, LocalDateTime updatedAt) {
+    public JoinUserResponseDto(Long userId, String name, String imgUrl, Boolean goalkeeper, Boolean defender, Boolean midfielder, Boolean attacker, GameTeam gameTeam, LocalDateTime updatedAt) {
         this.userId = userId;
         this.name = name;
         this.imgUrl = imgUrl;
-        this.position = position;
+        this.goalkeeper = goalkeeper;
+        this.defender = defender;
+        this.midfielder = midfielder;
+        this.attacker = attacker;
         this.gameTeam = gameTeam;
         this.updatedAt = updatedAt;
     }
