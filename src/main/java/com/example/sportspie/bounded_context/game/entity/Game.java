@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.cglib.core.Local;
 
 @Entity
 @Getter
@@ -114,7 +115,7 @@ public class Game extends BaseTimeEntity {
 	 * 경기 시작 시간이 지난 후 && 경기 인원 확정 상태
 	 */
 	public Boolean isSatisfiedResult(){
-		return getStartedAt().isBefore(LocalDateTime.now()) && getStatus().equals(GameStatus.PROGRESS);
+		return LocalDateTime.now().isAfter(getStartedAt()) && getStatus().equals(GameStatus.PROGRESS);
 	}
 
 	/**
@@ -122,7 +123,7 @@ public class Game extends BaseTimeEntity {
 	 * 경기 2시간 전 && 경기 인원 미확정 상태
 	 */
 	public Boolean isSatisfiedDelete(){
-		return getStartedAt().minusHours(2).isAfter(LocalDateTime.now()) && getStatus().equals(GameStatus.BEFORE);
+		return LocalDateTime.now().plusHours(2).isBefore(getStartedAt()) && getStatus().equals(GameStatus.BEFORE);
 	}
 
 	/**
@@ -130,7 +131,7 @@ public class Game extends BaseTimeEntity {
 	 * 현재 인원 < 최대 인원
 	 */
 	public Boolean isSatisfiedJoin(){
-		return maxCapacity - currentCapacity > 0;
+		return maxCapacity - currentCapacity > 0 && LocalDateTime.now().isBefore(getStartedAt());
 	}
 
 	public void increaseCurrentCapacity(){
