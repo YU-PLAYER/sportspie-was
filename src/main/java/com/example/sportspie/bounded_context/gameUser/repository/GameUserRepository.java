@@ -25,6 +25,8 @@ public interface GameUserRepository extends JpaRepository<GameUser, Long> {
     @Query("SELECT u FROM GameUser u WHERE u.joinGame = :joinGame ORDER BY u.team, u.updatedAt")
     List<GameUser> findByJoinGameOrderByTeam(Game joinGame);
 
+    List<GameUser> findGameUserByJoinGame(Game joinGame);
+
     //Notification.create : 경기 참여한 유저 조회 User
     @Query("SELECT u.joinUser FROM GameUser u WHERE u.joinGame = :joinGame")
     List<User> findByJoinGame(Game joinGame);
