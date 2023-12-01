@@ -2,7 +2,6 @@ package com.example.sportspie.bounded_context.gameUser.entitiy;
 
 import com.example.sportspie.base.entity.BaseTimeEntity;
 import com.example.sportspie.bounded_context.auth.entity.User;
-import com.example.sportspie.bounded_context.auth.type.Position;
 import com.example.sportspie.bounded_context.game.entity.Game;
 import com.example.sportspie.bounded_context.game.type.GameResult;
 import com.example.sportspie.bounded_context.gameUser.dto.JoinGameResponseDto;
@@ -50,6 +49,7 @@ public class GameUser extends BaseTimeEntity {
     public JoinGameResponseDto toGameDto() {
         Game game = joinGame;
         return JoinGameResponseDto.builder()
+                .gameId(game.getId())
                 .title(game.getTitle())
                 .date(game.getStartedAt().toLocalDate())
                 .time(game.getStartedAt().toLocalTime())

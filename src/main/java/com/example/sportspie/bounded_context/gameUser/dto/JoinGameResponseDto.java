@@ -11,6 +11,7 @@ import java.time.LocalTime;
 @Getter
 @NoArgsConstructor
 public class JoinGameResponseDto {
+    private Long gameId;
     private String title;
     private LocalDate date;
     private LocalTime time;
@@ -20,7 +21,8 @@ public class JoinGameResponseDto {
     private GameResult gameResult;
 
     @Builder
-    public JoinGameResponseDto(String title, LocalDate date, LocalTime time, Integer numJoin, Integer maxJoin, GameStatus gameStatus, GameResult gameResult) {
+    public JoinGameResponseDto(Long gameId, String title, LocalDate date, LocalTime time, Integer numJoin, Integer maxJoin, GameStatus gameStatus, GameResult gameResult) {
+        this.gameId = gameId;
         this.title = title;
         this.date = date;
         this.time = time;
