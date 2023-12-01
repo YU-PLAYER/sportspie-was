@@ -84,8 +84,8 @@ public class StadiumService {
                         .getAsJsonObject("items")
                         .getAsJsonArray("item");
 
-                int pty = -1;
-                int sky = -1;
+                int pty = 0;
+                int sky = 1;
                 for (JsonElement itemElement : itemList){
                     JsonObject item = itemElement.getAsJsonObject();
                     String category = item.get("category").getAsString();
@@ -105,7 +105,7 @@ public class StadiumService {
     private int getWeatherType(int pty, int sky){
         if (pty == 1 || pty == 2 || pty == 4) return 2; // 비
         else if (pty == 3) return 3; // 눈
-        else if (sky == 1) return 0; // 맑음
+        else if (sky == 1 || sky == 3) return 0; // 맑음
         else return 1; // 흐림
     }
 
