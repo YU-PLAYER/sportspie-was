@@ -141,12 +141,12 @@ public class GameService{
     public ResponseEntity<StateResponse> delete(Long userId, Long gameId){
         User user = userService.read(userId);
         Game game = read(gameId);
-        List<GameUser> gameUsers = gameUserRepository.findGameUserByJoinGame(game);
-        gameUserRepository.deleteAll(gameUsers);
 
         if(!game.isAuthor(user)) throw new IllegalArgumentException("작성자만 경기를 삭제할 수 있습니다.");
         if(!game.isSatisfiedDelete()) throw new IllegalArgumentException("경기 인원이 확정되지 않았고 경기 시작 시간 2시간 전인 경기만 삭제할 수 있습니다.");
 
+        List<GameUser> gameUsers = gameUserRepository.findGameUserByJoinGame(game);
+        gameUserRepository.deleteAll(gameUsers);
         gameRepository.delete(game);
 
         return ResponseEntity.ok(StateResponse.builder().code("SUCCESS").message("경기 삭제를 성공적으로 완료했습니다.").build());
