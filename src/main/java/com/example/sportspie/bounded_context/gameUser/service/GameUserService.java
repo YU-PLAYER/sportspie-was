@@ -65,6 +65,7 @@ public class GameUserService {
      * @param gameUserRequestDto
      * @return
      */
+    @Transactional
     public ResponseEntity<StateResponse> delete(Long userId, GameUserRequestDto gameUserRequestDto){
         User user = userService.read(userId);
         Game game = gameService.read(gameUserRequestDto.getGameId());
