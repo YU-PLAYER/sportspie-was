@@ -50,7 +50,7 @@ public class GameUserService {
 
         //참가 조건
         if(gameUser!=null) throw new IllegalStateException("해당 경기에 참가 중입니다. 참가 취소 후 참가 할 수 있습니다.");
-        if(!game.isSatisfiedJoin()) throw new IllegalStateException("경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다."); //isSatisfiedJoin
+        if(!game.isSatisfiedJoin()) throw new IllegalStateException("경기 시작시간이 지났거나, 경기 전체 인원의 최대 인원에 도달하여 참가할 수 없습니다."); //isSatisfiedJoin
         if(isTeamFull(game, gameUserRequestDto.getGameTeam())) throw new IllegalStateException("경기 팀 인원의 최대 인원에 도달하여 참가할 수 없습니다.");
 
         //참가 로직
