@@ -42,6 +42,7 @@ public class GameService{
      * @param gameRequestDto
      * @return
      */
+    @Transactional
     public ResponseEntity<StateResponse> create(Long userId, GameRequestDto gameRequestDto){
         User author = userService.read(userId);
         Stadium stadium = stadiumService.read(gameRequestDto.getStadiumId().intValue());
@@ -136,6 +137,7 @@ public class GameService{
      * @param gameId
      * @return
      */
+    @Transactional
     public ResponseEntity<StateResponse> delete(Long userId, Long gameId){
         User user = userService.read(userId);
         Game game = read(gameId);
