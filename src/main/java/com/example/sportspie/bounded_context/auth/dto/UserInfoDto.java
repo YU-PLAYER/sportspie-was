@@ -4,6 +4,7 @@ import com.example.sportspie.bounded_context.auth.entity.User;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -50,5 +51,29 @@ public class UserInfoDto {
 				.publicRecord(isPublicRecord)
 				.imageUrl(imageUrl)
 				.build();
+	}
+
+	@Builder
+	public UserInfoDto(String email, String nickname, String gender, Integer age, String region, Integer height, Integer weight, String introduce,
+			Boolean attacker,
+			Boolean midfielder, Boolean defender, Boolean goalkeeper, Boolean isPublicProfile, Boolean isPublicInformation, Boolean isPublicIntroduce,
+			Boolean isPublicRecord, String imageUrl) {
+		this.email = email;
+		this.nickname = nickname;
+		this.gender = gender;
+		this.age = age;
+		this.region = region;
+		this.height = height;
+		this.weight = weight;
+		this.introduce = introduce;
+		this.attacker = attacker;
+		this.midfielder = midfielder;
+		this.defender = defender;
+		this.goalkeeper = goalkeeper;
+		this.isPublicProfile = isPublicProfile;
+		this.isPublicInformation = isPublicInformation;
+		this.isPublicIntroduce = isPublicIntroduce;
+		this.isPublicRecord = isPublicRecord;
+		this.imageUrl = imageUrl;
 	}
 }
